@@ -240,6 +240,41 @@ const schematics = {
 </svg>`
   },
 
+  /* ---------- 08 · system audit ---------- */
+  audit: {
+    caption: "What the account had, against what it was missing",
+    svg: `<svg viewBox="0 0 880 392" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram: 107 automations split into 59 published and 48 draft, many without triggers and running in isolation, set against the recommended lifecycle of seven connected workflow stages.">
+  ${defs("aud")}
+  <text x="8" y="18" class="s-ma">WHAT WAS THERE — 107 AUTOMATIONS</text>
+
+  <rect x="8" y="30" width="864" height="34" rx="6" class="s-box"/>
+  <rect x="8" y="30" width="476" height="34" rx="6" class="s-box-a"/>
+  <text x="24" y="52" class="s-t2">59 published · 55%</text>
+  <text x="500" y="52" class="s-t2">48 draft · 45%</text>
+
+  <text x="8" y="92" class="s-m">Of those, workflows that could never run, and workflows that ran but led nowhere:</text>
+
+  ${box(8, 104, 210, 62, "No trigger", "could not fire at all", "r")}
+  ${box(226, 104, 210, 62, "Incomplete logic", "fired, then stopped", "r")}
+  ${box(444, 104, 210, 62, "No pipeline link", "stage never moved", "w")}
+  ${box(662, 104, 210, 62, "Standalone", "no hand-off onward", "w")}
+
+  <text x="8" y="202" class="s-ma">WHAT WAS MISSING — A LIFECYCLE THE WORKFLOWS SIT ON</text>
+
+  ${[["Lead", 8], ["Engage", 132], ["Book", 256], ["Show", 380], ["Convert", 504], ["Nurture", 628], ["Reactivate", 752]].map(([l, x], i) =>
+      `<rect x="${x}" y="214" width="112" height="56" rx="8" class="s-box-g"/>
+     <text x="${x + 14}" y="238" class="s-t2">${l}</text>
+     <text x="${x + 14}" y="256" class="s-m">own workflow</text>
+     ${i < 6 ? `<path d="M ${x + 114} 242 H ${x + 128}" class="s-flow" marker-end="url(#a-aud)"/>` : ""}`
+    ).join("")}
+
+  <path d="M 64 274 V 296 H 808 V 274" class="s-dash"/>
+  <text x="300" y="312" class="s-ma">each stage hands the contact to the next</text>
+
+  ${box(8, 324, 864, 60, "The distinction that decides the work", "If the gap is features, you build more. If the gap is structure, building more makes it worse — and this account had already built 107 times.", "")}
+</svg>`
+  },
+
   /* ---------- 07 · module library ---------- */
   modules: {
     caption: "Designed in Figma, rebuilt as live blocks — not exported as artwork",

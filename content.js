@@ -250,6 +250,120 @@ const gallery = {
 };
 
 /* ============================================================
+   FIELD NOTES
+   Method pieces, not case studies. Each one explains a technical
+   area and is illustrated by a real screenshot, but names no
+   client and claims no outcome, because those facts are not
+   available for this material. Keep it that way.
+   ============================================================ */
+
+const notesIntro = {
+  eyebrow: "Field notes",
+  title: "Two things that quietly decide whether a system works",
+  lede:
+    "Not client stories — method. These are the parts of a build that are invisible when done right and expensive when skipped, written up with a screenshot from a real account.",
+};
+
+const notes = [
+  {
+    slug: "a2p-10dlc-registration",
+    index: "N1",
+    kind: "Field note",
+    title: "A2P 10DLC: the registration that decides whether your SMS arrives at all",
+    summary:
+      "US carriers do not deliver application-to-person SMS from unregistered brands. Registration is paperwork with a technical failure mode, and it is the single most common reason a GoHighLevel SMS build goes quiet after launch.",
+    tags: ["A2P 10DLC", "SMS compliance", "Deliverability"],
+    shots: [
+      { file: "a2p-numbers.jpg", alt: "GoHighLevel Manage Numbers showing one A2P verified local number and a toll-free number in verification",
+        caption: "Two numbers on one account: a local number through A2P and carrier-verified, and a toll-free number still in verification. The phone numbers are blurred; the status badges are the point." },
+    ],
+    sections: [
+      {
+        h: "What it actually is",
+        p: [
+          "A2P 10DLC is the registration regime US carriers apply to application-to-person messaging sent over standard 10-digit long codes. You register the brand, then register each campaign describing what you will send and how people opted in. Carriers assign a trust score, and that score sets your throughput and your filtering.",
+          "The part people miss: this is not a GoHighLevel setting. It is a carrier process that GoHighLevel submits on your behalf. Approval is not instant, rejection is common, and until it clears your messages are either throttled hard or silently filtered.",
+        ],
+      },
+      {
+        h: "Why it fails",
+        p: [
+          "Almost always for reasons that look like clerical detail and are not.",
+        ],
+        list: [
+          ["Brand details that do not match the EIN record", "The legal name, address and EIN have to match the IRS record exactly. An abbreviated street or a trading name instead of the registered one is enough to bounce the submission."],
+          ["A campaign description that does not match the messages", "If the registered use case says appointment reminders and the account sends promotions, filtering follows. The description is a commitment, not a formality."],
+          ["Opt-in evidence that does not exist", "Carriers want to see how consent was collected. A form with no visible consent language, or a list bought from elsewhere, fails this and should."],
+          ["No opt-out handling", "STOP must work and must be honoured automatically. This is both a compliance requirement and a trust-score input."],
+        ],
+      },
+      {
+        h: "Local versus toll-free",
+        p: [
+          "They are different regimes and people conflate them. A local 10-digit number goes through A2P 10DLC registration. A toll-free number goes through a separate toll-free verification with its own form and its own queue.",
+          "Toll-free verification tends to be slower but gives higher throughput once cleared, which makes it the better choice for volume. Running both — a local number for conversational follow-up and a toll-free for broadcast — is a common and sensible split, and it is what the screenshot shows mid-flight.",
+        ],
+      },
+      {
+        h: "Why it belongs at the start of a build",
+        p: [
+          "Registration takes days to weeks, and nothing you build on top of SMS can be properly tested until it clears. Treating it as a launch-week task is how a finished automation sits idle waiting for a carrier.",
+          "It is also the cheapest insurance in the stack. An unregistered sender does not get an error. It gets silence, and silence is the hardest failure to diagnose after the fact.",
+        ],
+      },
+    ],
+  },
+
+  {
+    slug: "payment-gateway-integration",
+    index: "N2",
+    kind: "Field note",
+    title: "Connecting a payment gateway is the easy half",
+    summary:
+      "GoHighLevel will take NMI, Authorize.net or Stripe. Choosing between them, and handling what happens after a payment succeeds or fails, is where the actual work sits.",
+    tags: ["Stripe", "Payments", "Integration"],
+    shots: [
+      { file: "payment-gateways.jpg", alt: "GoHighLevel payments integrations screen offering NMI, Authorize.net and Stripe",
+        caption: "The integrations screen: NMI and Authorize.net take raw API credentials, Stripe uses a connect flow. A demo account — the key fields are empty." },
+    ],
+    sections: [
+      {
+        h: "The choice in front of you",
+        p: [
+          "Three options, and they are not interchangeable. Stripe connects through an OAuth flow, so no keys are copied by hand and the connection can be revoked from either side. NMI and Authorize.net take API credentials pasted into fields — a gateway ID and security key, or a login ID and transaction key.",
+          "That difference matters beyond convenience. Pasted credentials live in the account until someone rotates them, and whoever set them up had them in their clipboard. If an agency sets up a client's gateway this way, the client should rotate the keys at handover.",
+        ],
+      },
+      {
+        h: "Sandbox is not optional",
+        p: [
+          "Both credential-based gateways expose separate sandbox fields, and they exist so you can drive a full transaction without moving money.",
+          "Test the failure path, not just the success. A declined card, an expired card and a duplicate submission each take a different route through whatever automation sits behind the checkout, and the decline path is the one that is almost never exercised before launch.",
+        ],
+      },
+      {
+        h: "What happens after the payment",
+        p: [
+          "This is the part that is actually the build. A gateway returning success is the start of the work, not the end of it.",
+        ],
+        list: [
+          ["The success path", "Tag the contact, move the pipeline stage, grant access to whatever was bought, start onboarding, and record the amount against the opportunity so reporting means something."],
+          ["The failure path", "A decline should not dead-end. It needs a retry window, a message that does not read like an accusation, and an exit after a set number of attempts so the contact is not stuck in limbo."],
+          ["Refunds and chargebacks", "Both need to reverse whatever access the success path granted. A system that onboards on payment but never offboards on refund quietly leaks product."],
+          ["Subscriptions", "Recurring billing adds renewal, dunning and cancellation, each of which is its own branch. Failed renewals are where most of the revenue leaks, and they are usually the least built part."],
+        ],
+      },
+      {
+        h: "One thing worth checking early",
+        p: [
+          "Whether the gateway you want is supported for the currency and country the business actually operates in. It is a two-minute check that occasionally changes the whole plan, and it is much cheaper before the funnel is built than after.",
+        ],
+      },
+    ],
+  },
+];
+
+/* ============================================================
    CASE STUDIES
    `schematic` is the key of the diagram drawn on the page.
    ============================================================ */
@@ -635,6 +749,85 @@ const work = [
       },
     ],
   },
+
+  {
+    slug: "ghl-system-audit",
+    index: "08",
+    client: "Men's health brand",
+    industry: "Audit, under The Smart Scale Digital",
+    title: "107 automations, 48 of them switched off, and no lifecycle holding them together",
+    summary:
+      "A full GoHighLevel audit of an account with the automation count of a mature system and the structure of a new one: 107 workflows, 45% inactive, many with no trigger at all, and no customer lifecycle connecting any of it.",
+    tags: ["GoHighLevel", "System audit", "Lifecycle design"],
+    schematic: "audit",
+    shots: [],
+    meta: [
+      ["Engagement", "Audit & evaluation phase"],
+      ["Delivered under", "The Smart Scale Digital"],
+      ["Sector", "Direct-to-consumer men's health"],
+      ["Output", "10-page report + 1-page summary"],
+    ],
+    sections: [
+      {
+        h: "The situation",
+        p: [
+          "The account did not look neglected. It looked busy. 107 automations, integrations into Zapier, n8n and a set of webhooks, a lead scoring system, AI tools, a pipeline, a WordPress site feeding leads in. By every surface measure it was a mature GoHighLevel build.",
+          "It behaved like an early-stage one. Leads arrived and were not consistently followed up. Staff were unclear who owned what. The owner could not answer basic questions about where leads came from or where they stalled.",
+          "The brief was to find out why, and to say so in writing.",
+        ],
+      },
+      {
+        h: "What the audit found",
+        p: [
+          "The headline number is the one that reframes the whole engagement: of 107 automations, 59 were published and 48 were drafts. Forty-five percent of the system was switched off, and nobody knew which half was which.",
+        ],
+        list: [
+          ["Workflows with no trigger", "Several automations — both draft and live — had no entry condition at all. They could never fire. They sat in the list looking like capability."],
+          ["Automations running in isolation", "The live workflows were largely standalone. None passed a contact to the next step, so there was no path through the system, only a set of disconnected events."],
+          ["WordPress leads arriving nowhere", "Leads came in from the website with no consistent workflow entry point, no standard tagging and no immediate response. They were captured, then effectively parked."],
+          ["A manual pipeline", "Stages existed but were moved by hand. Nothing automated stage movement, so the pipeline recorded work someone remembered to do rather than driving it."],
+          ["Lead scoring with no consequence", "Scores were being calculated and then ignored. They changed no routing, no priority and no follow-up intensity, so a high-intent lead was treated exactly like a cold one."],
+          ["No task or ownership layer", "No automatic task creation, no staff assignment, no completion tracking. Accountability depended entirely on memory."],
+          ["Logic scattered outside the CRM", "Zapier, n8n and raw webhooks were doing work GoHighLevel could do natively, which multiplied the number of places a failure could hide."],
+          ["AI bolted on rather than built in", "AI tools were present but not embedded in any workflow, firing at the wrong points in the journey rather than at first response or qualification."],
+        ],
+      },
+      {
+        h: "The actual problem",
+        p: [
+          "Ten problems were listed, but they were symptoms of one. The system had been built as a collection of tools and automations rather than as a connected workflow system reflecting how the business actually converts a lead into a patient.",
+          "That distinction decides what you do next. If the problem is missing features, you buy and build more. If the problem is missing structure, more building makes it worse — and this account was the proof, because it had already built 107 times.",
+        ],
+      },
+      {
+        h: "What I recommended",
+        p: [
+          "A lifecycle-based workflow system: not one central workflow, but several connected ones, each owning a stage and handing off to the next.",
+        ],
+        list: [
+          ["The lifecycle", "Lead → Engage → Book → Show → Convert → Nurture → Reactivate, with a dedicated workflow per stage rather than one monolith trying to branch its way through everything."],
+          ["A contract for every workflow", "Each one trigger-based, updating the pipeline stage, applying and removing its tags, creating tasks where a human is needed, and explicitly passing the contact to the next workflow. That last clause is what turns a set of automations into a system."],
+          ["The pipeline demoted to a view", "Stage movement automated by the workflows, so the pipeline becomes a tracking surface rather than a data entry chore."],
+          ["Scoring wired to consequences", "Scores driving priority handling, staff notification and follow-up intensity, so the number finally changes what happens to the lead."],
+          ["Logic pulled back into GoHighLevel", "Reducing webhook and external-tool dependency where the platform can do the work, cutting the number of failure points."],
+        ],
+      },
+      {
+        h: "The roadmap",
+        p: [
+          "Seven phases, deliberately ordered so that nothing gets built on top of a mess: system mapping first, then tag cleanup, then the workflow build, then pipeline and task automation, then integration consolidation, then AI, and reporting last.",
+          "Mapping is phase one for the same reason the audit existed. The account had never had its ideal process written down, so every previous build had been a guess about what the system should do.",
+        ],
+      },
+      {
+        h: "Where it landed",
+        p: [
+          "The client received a ten-page audit and a one-page summary they could act on, with the automation inventory quantified, ten named problems, a target architecture and a phased plan.",
+          "The conclusion was the part worth paying for: the system had the volume of a mature setup but not the structure of one, and the next phase was not more tools. It was organising what already existed into something connected.",
+        ],
+      },
+    ],
+  },
 ];
 
-module.exports = { site, hero, proof, leaks, services, process, stack, certs, about, gallery, work, palettes, activePalette };
+module.exports = { site, hero, proof, leaks, services, process, stack, certs, about, gallery, work, notes, notesIntro, palettes, activePalette };

@@ -5,7 +5,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const { site, hero, proof, leaks, services, process: steps, stack, certs, about, gallery, work, palettes, activePalette } = require("./content");
+const { site, hero, proof, leaks, services, process: steps, stack, certs, about, gallery, work, notes, notesIntro, palettes, activePalette } = require("./content");
 const { schematics } = require("./src/schematics");
 
 /* A shot only renders if its file is really in assets/work/. That way the
@@ -62,7 +62,7 @@ function nav(prefix) {
     <div class="nav-in">
       <a class="brand" href="${p || "#top"}"><span class="dot"></span>${site.name}</a>
       <nav class="nav-links" aria-label="Sections">
-        <a href="${p}#work">Work</a>${HAS_GALLERY ? `\n        <a href="${p}#gallery">Funnels</a>` : ""}
+        <a href="${p}#work">Work</a>\n        <a href="${p}#notes">Notes</a>${HAS_GALLERY ? `\n        <a href="${p}#gallery">Funnels</a>` : ""}
         <a href="${p}#services">Services</a>
         <a href="${p}#process">Process</a>
         <a href="${p}#about">About</a>
@@ -291,7 +291,7 @@ ${nav("")}
     <div class="wrap">
       <div class="sect-head reveal">
         <div class="eye">Showcase</div>
-        <h2>Seven systems, written up properly</h2>
+        <h2>Eight systems, written up properly</h2>
         <p>Each one has its own page: the situation, what got built, the logic behind it, and where it landed.</p>
       </div>
       <div class="row">
@@ -301,6 +301,32 @@ ${nav("")}
   </section>
 
 ${gallerySection}
+
+  <!-- field notes -->
+  <section class="sect" id="notes">
+    <div class="wrap">
+      <div class="sect-head reveal">
+        <div class="eye">${notesIntro.eyebrow}</div>
+        <h2>${notesIntro.title}</h2>
+        <p>${notesIntro.lede}</p>
+      </div>
+      <div class="row">
+        ${notes
+          .map(
+            (n) => `<a class="card work-card reveal" href="notes/${n.slug}.html" style="grid-column:span 6">
+          <div class="w-top">
+            <span class="w-i">${n.kind}</span>
+            ${GO}
+          </div>
+          <h3>${n.title}</h3>
+          <p>${n.summary}</p>
+          <div class="tags">${n.tags.map((t) => `<span class="chip">${t}</span>`).join("")}</div>
+        </a>`
+          )
+          .join("\n        ")}
+      </div>
+    </div>
+  </section>
 
   <!-- process -->
   <section class="sect" id="process">
@@ -498,6 +524,115 @@ ${JS}
 `;
 }
 
+
+/* ---------------- field note page ---------------- */
+
+function buildNote(n, next) {
+  const shots = (n.shots || []).filter((sh) => fs.existsSync(path.join(SHOT_DIR, sh.file)));
+  const shotBlock = shots.length
+    ? `
+  <section class="sect">
+    <div class="wrap row">
+      <div class="card reveal" style="grid-column:span 12">
+        <div class="eye">From a real account</div>
+        <div class="shots${shots.length === 1 ? " one" : ""}">
+          ${shots
+            .map(
+              (sh) => `<figure class="shot">
+            <span class="shot-frame"><img src="../assets/work/${sh.file}" alt="${(sh.alt || "").replace(/"/g, "&quot;")}" loading="lazy"></span>
+            ${sh.caption ? `<figcaption>${sh.caption}</figcaption>` : ""}
+          </figure>`
+            )
+            .join("\n          ")}
+        </div>
+      </div>
+    </div>
+  </section>`
+    : "";
+
+  const blocks = n.sections
+    .map((sec) => {
+      const paras = (sec.p || []).map((x) => `<p>${x}</p>`).join("\n          ");
+      const spec = sec.list
+        ? `<div class="spec">${sec.list
+            .map((row) => `<div class="spec-row"><h4>${row[0]}</h4><p>${row[1]}</p></div>`)
+            .join("")}</div>`
+        : "";
+      return `<section class="card block reveal" style="grid-column:span 12">
+          <h2>${sec.h}</h2>
+          ${paras}
+          ${spec}
+        </section>`;
+    })
+    .join("\n        ");
+
+  const body = `<a class="skip" href="#main">Skip to content</a>
+${nav("../index.html")}
+
+<main id="main">
+  <section class="sect" id="top">
+    <div class="wrap row">
+      <div class="card cs-hero" style="grid-column:span 8">
+        <a class="back" href="../index.html#notes">${BACKARR} All notes</a>
+        <div class="eye">${n.kind}</div>
+        <h1>${n.title}</h1>
+        <p class="lede">${n.summary}</p>
+      </div>
+      <div class="card" style="grid-column:span 4">
+        <div class="eye">What this is</div>
+        <p class="muted" style="font-size:var(--t-sm)">A method note, not a client case study. It explains how this part of a build works and what breaks it. It names no client and claims no result, because this piece of work has neither attached to it.</p>
+        <div class="tags">${n.tags.map((t) => `<span class="chip">${t}</span>`).join("")}</div>
+      </div>
+    </div>
+  </section>
+${shotBlock}
+  <section class="sect">
+    <div class="wrap row">
+        ${blocks}
+    </div>
+  </section>
+
+  <section class="sect">
+    <div class="wrap row">
+      <a class="card next-link reveal" href="${next.slug}.html" style="grid-column:span 12">
+        <div>
+          <div class="k">Next note</div>
+          <h3>${next.title}</h3>
+        </div>
+        ${GO}
+      </a>
+    </div>
+  </section>
+</main>
+
+${footer("../index.html")}`;
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>${n.title.slice(0, 60)} · ${site.name}</title>
+<meta name="description" content="${n.summary.replace(/"/g, "&quot;")}">
+${FONTS}
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+${CSS_ALL}
+</style>
+</head>
+<body>
+${body}
+<script>
+${JS}
+</script>
+</body>
+</html>
+`;
+}
+
 /* ---------------- run ---------------- */
 
 /* GitHub Pages can only serve the repo root or /docs, so the build output
@@ -555,6 +690,12 @@ fs.writeFileSync(path.join(__dirname, ".artifact", "index.html"), indexFragment)
 work.forEach((w, i) => {
   const next = work[(i + 1) % work.length];
   fs.writeFileSync(path.join(dist, "work", w.slug + ".html"), buildCase(w, next));
+});
+
+fs.mkdirSync(path.join(dist, "notes"), { recursive: true });
+notes.forEach((n, i) => {
+  const next = notes[(i + 1) % notes.length];
+  fs.writeFileSync(path.join(dist, "notes", n.slug + ".html"), buildNote(n, next));
 });
 
 (function copyAssets(src, dest) {

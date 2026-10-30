@@ -11,7 +11,7 @@ only to stamp out the pages from one content file.
 content.js          every word on the site — edit this, not the HTML
 src/site.css        all styling (design tokens live at the top)
 src/site.js         theme toggle, scroll reveals, hero pipeline animation
-src/schematics.js   the seven case-study diagrams (inline SVG)
+src/schematics.js   the eight case-study diagrams (inline SVG)
 assets/             the two portraits
 build.js            assembles docs/
 docs/               the finished site — this is what you deploy
@@ -84,6 +84,27 @@ they carry "Logoipsum" placeholder logos, "John Doe / Jane Doe" testimonials
 and lorem ipsum body copy, with a "N PAGES" badge in the corner. The gallery
 copy says so plainly and sells the structure rather than claiming client
 deployments. Don't change that line to imply these are live client sites.
+
+### Field notes vs case studies
+
+`docs/notes/` holds **field notes** — method pieces, not client stories. They
+exist because the remaining screenshots came with no client, no brief and no
+outcome, and writing "case studies" from them would have meant inventing all
+three next to seven true ones.
+
+A field note explains how a part of a build works and what breaks it, shows a
+real screenshot as evidence, and states on the page itself that it names no
+client and claims no result. If you later have the facts for one, promote it
+to a case study in `work` and delete the note.
+
+### The audit case study (08)
+
+Delivered under **The Smart Scale Digital**. The report itself is bylined to
+the agency, not to you, which is normal for subcontracted work but means the
+page is written as "delivered under" rather than implying sole authorship. The
+end client is described by sector only. The figures on that page — 107
+automations, 59 published, 48 draft, the seven-phase roadmap — are taken
+directly from the report.
 
 ### Case studies with no screenshot
 
