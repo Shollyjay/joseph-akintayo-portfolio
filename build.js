@@ -505,7 +505,50 @@ fs.rmSync(dist, { recursive: true, force: true });
 fs.mkdirSync(path.join(dist, "work"), { recursive: true });
 fs.mkdirSync(path.join(dist, "assets"), { recursive: true });
 
-fs.writeFileSync(path.join(dist, "index.html"), buildIndex());
+/* Two forms of the homepage:
+   - dist/index.html is a complete document, which is what every real host
+     needs (GitHub Pages, Netlify, Vercel). Without the doctype it renders in
+     quirks mode and, with no viewport meta, breaks on phones.
+   - .artifact/index.html is the same page as a bare fragment, because the
+     Claude artifact host supplies its own <!doctype>/<head>/<body> wrapper
+     and a second one would nest. */
+const indexFragment = buildIndex();
+
+/* the fragment is head-ish markup (title, fonts, styles) followed by the
+   page itself, starting at the skip link */
+const splitAt = indexFragment.indexOf('<a class="skip"');
+if (splitAt < 0) throw new Error("could not split the index fragment");
+const headPart = indexFragment.slice(0, splitAt).trim();
+const bodyPart = indexFragment.slice(splitAt).trim();
+
+const standaloneIndex = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="${site.name} — ${site.role}. Based in ${site.location}.">
+<meta property="og:title" content="${site.name} — ${site.role}">
+<meta property="og:description" content="${hero.lede.replace(/"/g, "&quot;").slice(0, 200)}">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/joseph-hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+${headPart}
+</head>
+<body>
+${bodyPart}
+</body>
+</html>
+`;
+
+fs.writeFileSync(path.join(dist, "index.html"), standaloneIndex);
+fs.mkdirSync(path.join(__dirname, ".artifact"), { recursive: true });
+fs.writeFileSync(path.join(__dirname, ".artifact", "index.html"), indexFragment);
 
 work.forEach((w, i) => {
   const next = work[(i + 1) % work.length];

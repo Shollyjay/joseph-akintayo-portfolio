@@ -10,3 +10,6 @@ tmp/
 # dist/ IS committed on purpose — it is the deployable site, and the host
 # (Netlify Drop, Pages, Vercel) serves it directly with no build step.
 # Remove the line below only if you add CI that runs `node build.js`.
+
+# Artifact-only build output (fragment form, not for hosting)
+.artifact/
