@@ -1,0 +1,1397 @@
+<title>Joseph Akintayo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap">
+<style>
+/* ============================================================
+   Layout concept: bento. Everything lives in a card on a flat
+   near-black ground; cards are drawn by a hairline, not a fill,
+   with a 30px radius and a 20px gutter between them. One red
+   tile per screen carries the accent and takes an asymmetric
+   corner. Type is Inter throughout, small and set at weight 500,
+   with muted uppercase eyebrows above white card titles.
+   ============================================================ */
+
+:root {
+  /* colour — dark values on bare :root (dark-first) */
+  --bg:        #0F0F0F;
+  --card:      #0F0F0F;
+  --card-2:    #161616;
+  --card-3:    #1C1C1C;
+  --line:      rgba(255, 255, 255, .08);
+  --line-2:    rgba(255, 255, 255, .15);
+  --fg:        #FFFFFF;
+  --fg-2:      #9F9F9F;
+  --fg-3:      rgba(188, 188, 188, .5);
+  --accent:    #DD4444;
+  --accent-2:  #CC3366;
+  --accent-text: #DD4444;
+  --accent-ink:#FFFFFF;
+  --accent-dim:rgba(221, 68, 68, .12);
+  --ok:        #4ED8A0;
+  --warn:      #E8B04B;
+  --bad:       #E05A5A;
+  color-scheme: dark;
+
+  /* type — Inter only, as the reference uses it */
+  --ff: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --t-hero: clamp(2.1rem, 4.4vw, 3.4rem);
+  --t-sect: clamp(1.5rem, 2.6vw, 2.1rem);
+  --t-card: 1.25rem;
+  --t-body: 0.9375rem;
+  --t-sm:   0.875rem;
+  --t-xs:   0.75rem;
+  --t-eye:  0.6875rem;
+
+  /* layout */
+  --maxw: 1170px;
+  --gap: 20px;
+  --pad: clamp(18px, 2.4vw, 30px);
+  --r: 30px;
+  --r-sm: 16px;
+  --r-xs: 10px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:        #F1F1F1;
+    --card:      #FFFFFF;
+    --card-2:    #FFFFFF;
+    --card-3:    #FAFAFA;
+    --line:      rgba(0, 0, 0, .10);
+    --line-2:    rgba(0, 0, 0, .18);
+    --fg:        #101010;
+    --fg-2:      #5C5C5C;
+    --fg-3:      rgba(60, 60, 60, .62);
+    --accent:    #C32B2B;
+    --accent-2:  #A81F52;
+    --accent-text: #C32B2B;
+    --accent-ink:#FFFFFF;
+    --accent-dim:rgba(195, 43, 43, .09);
+    --ok:        #0F8A5F;
+    --warn:      #8A6200;
+    --bad:       #BE2C2C;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg:        #F1F1F1;
+  --card:      #FFFFFF;
+  --card-2:    #FFFFFF;
+  --card-3:    #FAFAFA;
+  --line:      rgba(0, 0, 0, .10);
+  --line-2:    rgba(0, 0, 0, .18);
+  --fg:        #101010;
+  --fg-2:      #5C5C5C;
+  --fg-3:      rgba(60, 60, 60, .62);
+  --accent:    #C32B2B;
+  --accent-2:  #A81F52;
+  --accent-text: #C32B2B;
+  --accent-ink:#FFFFFF;
+  --accent-dim:rgba(195, 43, 43, .09);
+  --ok:        #0F8A5F;
+  --warn:      #8A6200;
+  --bad:       #BE2C2C;
+  color-scheme: light;
+}
+
+/* ---------- base ---------- */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--ff);
+  font-size: var(--t-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+  color: var(--fg);
+}
+
+p { margin: 0; }
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 200;
+  background: var(--accent); color: var(--accent-ink);
+  padding: 12px 18px; font-size: var(--t-sm); font-weight: 500;
+  border-radius: 0 0 var(--r-xs) 0;
+}
+.skip:focus { left: 0; top: 0; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ---------- shell ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 24px);
+}
+
+.sect { padding-block: clamp(28px, 4vw, 42px); scroll-margin-top: 90px; }
+.sect:first-of-type { padding-top: clamp(16px, 2.4vw, 26px); }
+
+/* the bento row: cards side by side, stacking at phone width */
+.row {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+@media (max-width: 860px) {
+  .row { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .row { grid-template-columns: minmax(0, 1fr); }
+  .row > * { grid-column: auto !important; }
+}
+
+/* ---------- the card ---------- */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: var(--pad);
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.card-2 { background: var(--card-2); }
+
+/* a card that is a link */
+a.card { text-decoration: none; transition: border-color .35s, transform .35s; }
+a.card:hover { border-color: var(--line-2); transform: translateY(-3px); }
+
+/* the eyebrow / title pair that heads most cards */
+.eye {
+  font-size: var(--t-eye);
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.card > .eye + h2, .card > .eye + h3 { margin-top: -6px; }
+.card h2, .card h3 { font-size: var(--t-card); }
+
+.muted { color: var(--fg-2); }
+.lede { color: var(--fg-2); font-size: var(--t-body); max-width: 62ch; }
+
+/* a section heading that sits outside a card */
+.sect-head { display: grid; gap: 10px; margin-bottom: var(--gap); max-width: 70ch; }
+.sect-head h2 { font-size: var(--t-sect); letter-spacing: -.028em; }
+.sect-head p { color: var(--fg-2); }
+
+/* ---------- nav ---------- */
+
+.nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  padding-block: 14px;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+}
+.nav-in {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 9px 9px 9px 22px;
+}
+.brand {
+  font-weight: 500;
+  font-size: var(--t-sm);
+  letter-spacing: -.01em;
+  text-decoration: none;
+  margin-right: auto;
+  white-space: nowrap;
+  display: flex; align-items: center; gap: 9px;
+}
+.brand .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent); flex: none;
+  animation: ping 2.8s ease-out infinite;
+}
+@keyframes ping {
+  0%   { box-shadow: 0 0 0 0 var(--accent-dim); }
+  70%  { box-shadow: 0 0 0 8px rgba(221,68,68,0); }
+  100% { box-shadow: 0 0 0 0 rgba(221,68,68,0); }
+}
+.nav-links { display: flex; gap: 2px; }
+.nav-links a {
+  text-decoration: none;
+  font-size: var(--t-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  padding: 8px 12px;
+  border-radius: 100px;
+  transition: color .25s, background .25s;
+}
+.nav-links a:hover, .nav-links a.is-active { color: var(--fg); background: var(--card-3); }
+@media (max-width: 900px) { .nav-links { display: none; } }
+
+.icon-btn {
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--fg-2);
+  border-radius: 50%;
+  cursor: pointer;
+  flex: none;
+  transition: color .25s, border-color .25s;
+}
+.icon-btn:hover { color: var(--accent-text); border-color: var(--accent-text); }
+.icon-btn svg { width: 15px; height: 15px; }
+
+/* the toggle shows the theme it switches TO */
+.i-sun  { display: block; }
+.i-moon { display: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .i-sun  { display: none; }
+  :root:not([data-theme="dark"]) .i-moon { display: block; }
+}
+:root[data-theme="dark"]  .i-sun  { display: block; }
+:root[data-theme="dark"]  .i-moon { display: none; }
+:root[data-theme="light"] .i-sun  { display: none; }
+:root[data-theme="light"] .i-moon { display: block; }
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 100px;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform .3s cubic-bezier(.2,.8,.3,1), background .25s, border-color .25s, color .25s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn .arr { transition: transform .3s; }
+.btn:hover .arr { transform: translate(2px, -2px); }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: var(--accent-2); }
+.btn-ghost { border-color: var(--line-2); color: var(--fg); }
+.btn-ghost:hover { border-color: var(--accent-text); color: var(--accent-text); }
+.nav-in .btn { padding: 9px 18px; }
+@media (max-width: 620px) {
+  .nav-in { padding-left: 16px; gap: 10px; }
+  .nav-in .btn { padding: 9px 15px; font-size: var(--t-xs); }
+  .nav-in .btn .arr { display: none; }
+  .brand { font-size: var(--t-xs); }
+}
+
+/* ---------- hero ---------- */
+
+.hero-card { justify-content: center; gap: 18px; padding-block: clamp(32px, 5vw, 56px); }
+.hero-card h1 {
+  font-size: var(--t-hero);
+  font-weight: 500;
+  letter-spacing: -.035em;
+  line-height: 1.08;
+  max-width: 17ch;
+}
+.hero-card h1 .hl { color: var(--accent-text); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+
+/* portrait tile — the one asymmetric corner, as the reference does it */
+.portrait {
+  position: relative;
+  border-radius: var(--r) 0 var(--r) var(--r);
+  overflow: hidden;
+  background: var(--card-3);
+  min-height: 300px;
+  padding: 0;
+  border: 0;
+  display: block;
+}
+.portrait img {
+  width: 100%; height: 100%;
+  position: absolute; inset: 0;
+  object-fit: cover;
+  object-position: 50% 14%;
+}
+.portrait::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(185deg, transparent 46%, rgba(0,0,0,.72));
+}
+.portrait .tag {
+  position: absolute;
+  left: 20px; right: 20px; bottom: 18px;
+  z-index: 2;
+  font-size: var(--t-eye);
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #fff;
+  display: flex; align-items: center; gap: 8px;
+  line-height: 1.4;
+}
+.portrait .tag .live {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #fff; flex: none;
+  animation: ping 2.2s ease-out infinite;
+}
+
+/* ---------- ticker ---------- */
+
+.ticker {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--card);
+  padding-block: 13px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.ticker-in { display: flex; width: max-content; animation: slide 40s linear infinite; }
+.ticker:hover .ticker-in { animation-play-state: paused; }
+@keyframes slide { to { transform: translateX(-50%); } }
+.ticker span {
+  font-size: var(--t-xs);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  white-space: nowrap;
+  padding-inline: 20px;
+}
+.ticker span::after { content: "·"; margin-left: 20px; color: var(--accent-text); }
+
+/* ---------- stats ---------- */
+
+.stat { align-items: flex-start; justify-content: center; gap: 6px; min-height: 150px; }
+.stat .v {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stat .v span + span { color: var(--accent-text); }
+.stat .l { font-size: var(--t-sm); line-height: 1.35; }
+.stat .n { font-size: var(--t-xs); color: var(--fg-3); }
+
+/* ---------- pipeline ---------- */
+
+.pipe-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; flex-wrap: wrap;
+  font-size: var(--t-eye);
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.pipe-head b { color: var(--accent); font-weight: 500; font-variant-numeric: tabular-nums; }
+.pipe-track {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+@media (max-width: 760px) { .pipe-track { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+.node {
+  border: 1px solid var(--line);
+  background: var(--card-3);
+  border-radius: var(--r-sm);
+  padding: 14px 14px 15px;
+  min-width: 0;
+  transition: border-color .45s, background .45s, transform .45s;
+}
+.node .n { font-size: 10px; color: var(--fg-3); letter-spacing: .14em; display: block; margin-bottom: 7px; font-variant-numeric: tabular-nums; }
+.node .t { font-size: var(--t-sm); font-weight: 500; line-height: 1.25; color: var(--fg-2); transition: color .45s; overflow-wrap: break-word; display: block; }
+.node .bar { display: block; height: 2px; margin-top: 12px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.node .bar i { display: block; height: 100%; width: 0%; background: var(--accent-text); transition: width .55s linear; }
+.node.is-live { border-color: var(--accent-text); background: var(--accent-dim); transform: translateY(-3px); }
+.node.is-live .t, .node.is-done .t { color: var(--fg); }
+.node.is-done { border-color: color-mix(in srgb, var(--accent-text) 45%, var(--line)); }
+.node.is-done .bar i { width: 100%; }
+
+/* ---------- leak cards ---------- */
+
+.leak .st { color: var(--accent-text); }
+.leak p { color: var(--fg-2); }
+
+/* ---------- services ---------- */
+
+.svc ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+.svc li {
+  font-size: var(--t-sm);
+  color: var(--fg-2);
+  padding-left: 17px;
+  position: relative;
+  line-height: 1.5;
+}
+.svc li::before {
+  content: ""; position: absolute; left: 0; top: .62em;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-text); opacity: .7;
+}
+
+/* ---------- work ---------- */
+
+.work-card { gap: 12px; }
+.work-card .w-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.work-card .w-i { font-size: var(--t-eye); color: var(--fg-3); letter-spacing: .14em; font-variant-numeric: tabular-nums; }
+.work-card h3 { font-size: clamp(1.1rem, 1.8vw, 1.4rem); transition: color .3s; }
+a.work-card:hover h3 { color: var(--accent-text); }
+.work-card p { color: var(--fg-2); font-size: var(--t-sm); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+.chip {
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 5px 11px;
+}
+.w-go { color: var(--fg-3); transition: transform .3s, color .3s; flex: none; }
+a:hover .w-go { transform: translate(3px, -3px); color: var(--accent-text); }
+
+/* the featured work card carries the accent */
+.work-feat {
+  background: linear-gradient(145deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+  border-radius: var(--r) var(--r) 0 var(--r);
+  color: var(--accent-ink);
+}
+.work-feat h3, .work-feat .w-i, .work-feat p, .work-feat .w-go { color: var(--accent-ink); }
+.work-feat .w-i, .work-feat p { opacity: .9; }
+.work-feat .chip { border-color: color-mix(in srgb, var(--accent-ink) 35%, transparent); color: var(--accent-ink); }
+a.work-feat:hover { border-color: transparent; }
+a.work-feat:hover h3 { color: var(--accent-ink); }
+
+/* ---------- process ---------- */
+
+.step .n {
+  font-size: var(--t-eye); color: var(--accent-text); letter-spacing: .14em;
+  font-variant-numeric: tabular-nums;
+}
+.step p { color: var(--fg-2); font-size: var(--t-sm); }
+
+/* ---------- about ---------- */
+
+.about-copy p { color: var(--fg-2); }
+.about-copy { gap: 14px; }
+.facts { display: grid; gap: 0; margin: 0; }
+.fact {
+  display: grid; grid-template-columns: minmax(0, 110px) minmax(0, 1fr);
+  gap: 14px; padding-block: 11px;
+  border-top: 1px solid var(--line);
+}
+.fact:first-child { border-top: 0; padding-top: 0; }
+.fact dt { font-size: var(--t-eye); text-transform: uppercase; letter-spacing: .14em; color: var(--fg-3); padding-top: 2px; }
+.fact dd { margin: 0; font-size: var(--t-sm); color: var(--fg-2); }
+
+.certs { display: grid; gap: 7px; }
+.cert {
+  display: flex; align-items: center; gap: 10px;
+  font-size: var(--t-sm); color: var(--fg-2);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 9px 15px;
+}
+.cert svg { width: 13px; height: 13px; color: var(--accent-text); flex: none; }
+
+.result {
+  background: linear-gradient(145deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+  border-radius: var(--r) var(--r) var(--r) 0;
+  color: var(--accent-ink);
+  gap: 10px;
+}
+.result { justify-content: center; }
+.result .fig { font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -.05em; line-height: 1; }
+.result p { color: var(--accent-ink); opacity: .93; font-size: var(--t-sm); }
+
+/* ---------- contact ---------- */
+
+.contact-card { gap: 18px; padding-block: clamp(30px, 4.5vw, 48px); }
+.contact-card h2 { font-size: clamp(1.8rem, 4vw, 2.9rem); letter-spacing: -.035em; max-width: 18ch; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.copyrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-block: 13px;
+}
+.copyrow:first-child { border-top: 0; padding-top: 0; }
+.copyrow .k { font-size: var(--t-eye); letter-spacing: .14em; text-transform: uppercase; color: var(--fg-3); }
+.copyrow .v { font-size: var(--t-sm); font-weight: 500; word-break: break-word; }
+.copyrow button {
+  font-family: inherit;
+  font-size: var(--t-xs);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--fg-2);
+  border-radius: 100px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: color .25s, border-color .25s;
+  white-space: nowrap;
+}
+.copyrow button:hover { color: var(--accent-text); border-color: var(--accent-text); }
+.copyrow button.ok { color: var(--ok); border-color: var(--ok); }
+
+/* ---------- footer ---------- */
+
+.foot { padding-block: 10px clamp(30px, 4vw, 44px); }
+.foot-in {
+  display: flex; flex-wrap: wrap; gap: 14px;
+  justify-content: space-between; align-items: center;
+  font-size: var(--t-xs);
+  color: var(--fg-3);
+  letter-spacing: .04em;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+.foot-in a { color: var(--fg-2); text-decoration: none; }
+.foot-in a:hover { color: var(--accent-text); }
+
+/* ============================================================
+   CASE STUDY PAGE
+   ============================================================ */
+
+.cs-hero { gap: 16px; padding-block: clamp(30px, 4.5vw, 46px); }
+.cs-hero h1 {
+  font-size: clamp(1.7rem, 3.6vw, 2.7rem);
+  letter-spacing: -.034em;
+  max-width: 21ch;
+}
+.back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: var(--t-eye);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  text-decoration: none;
+  transition: color .25s, gap .25s;
+}
+.back:hover { color: var(--accent-text); gap: 12px; }
+
+.meta { display: grid; gap: 0; margin: 0; align-content: start; }
+.meta > div {
+  display: grid; grid-template-columns: minmax(0, 92px) minmax(0, 1fr);
+  gap: 14px; padding-block: 11px;
+  border-top: 1px solid var(--line);
+}
+.meta > div:first-child { border-top: 0; padding-top: 0; }
+.meta dt { font-size: var(--t-eye); text-transform: uppercase; letter-spacing: .14em; color: var(--fg-3); padding-top: 2px; }
+.meta dd { margin: 0; font-size: var(--t-sm); font-weight: 500; line-height: 1.35; }
+
+.schematic-cap { margin-bottom: 4px; }
+.schematic-scroll { overflow-x: auto; border-radius: var(--r-sm); }
+.schematic svg { display: block; width: 100%; height: auto; min-width: 540px; }
+
+.block { gap: 14px; }
+.block h2 { font-size: clamp(1.3rem, 2.3vw, 1.7rem); letter-spacing: -.028em; max-width: 24ch; }
+.block p { color: var(--fg-2); max-width: 74ch; }
+
+.spec { display: grid; gap: 0; }
+.spec-row { padding-block: 15px; display: grid; gap: 6px; border-top: 1px solid var(--line); }
+.spec-row:first-child { border-top: 0; padding-top: 4px; }
+.spec-row h4 { font-size: var(--t-sm); font-weight: 500; display: flex; align-items: baseline; gap: 9px; }
+.spec-row h4::before {
+  content: ""; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent-text); flex: none; transform: translateY(-2px);
+}
+.spec-row p { color: var(--fg-2); font-size: var(--t-sm); max-width: 86ch; }
+
+.next-link { flex-direction: row; align-items: center; justify-content: space-between; gap: 20px; }
+.next-link .k { font-size: var(--t-eye); letter-spacing: .14em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 8px; }
+.next-link h3 { font-size: clamp(1.1rem, 2.2vw, 1.5rem); max-width: 24ch; transition: color .3s; }
+a.next-link:hover h3 { color: var(--accent-text); }
+
+/* ---------- schematic primitives ---------- */
+
+.schematic svg text { font-family: var(--ff); }
+.s-box   { fill: var(--card-3); stroke: var(--line-2); stroke-width: 1; }
+.s-box-a { fill: var(--accent-dim); stroke: var(--accent); stroke-width: 1; }
+.s-box-g { fill: color-mix(in srgb, var(--ok) 13%, var(--card)); stroke: var(--ok); stroke-width: 1; }
+.s-box-w { fill: color-mix(in srgb, var(--warn) 15%, var(--card)); stroke: var(--warn); stroke-width: 1; }
+.s-box-r { fill: color-mix(in srgb, var(--bad) 13%, var(--card)); stroke: var(--bad); stroke-width: 1; }
+.s-fill  { fill: var(--line); stroke: none; }
+.s-t  { fill: var(--fg); font-size: 13px; font-weight: 500; letter-spacing: -.01em; }
+.s-t2 { fill: var(--fg); font-size: 12px; font-weight: 500; }
+.s-m  { fill: var(--fg-2); font-size: 10.5px; letter-spacing: .02em; }
+.s-ma { fill: var(--accent-text); font-size: 10.5px; letter-spacing: .08em; }
+.s-line { stroke: var(--line-2); stroke-width: 1; fill: none; }
+.s-flow { stroke: var(--accent); stroke-width: 1.4; fill: none; }
+.s-dash { stroke: var(--fg-3); stroke-width: 1; fill: none; stroke-dasharray: 3 4; }
+.s-head { fill: var(--accent); }
+.s-head-n { fill: var(--fg-3); }
+
+/* ---------- motion ---------- */
+
+.reveal { transition: opacity .7s cubic-bezier(.2,.8,.3,1), transform .7s cubic-bezier(.2,.8,.3,1); }
+.reveal.is-pre { opacity: 0; transform: translateY(16px); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+  .reveal.is-pre { opacity: 1; transform: none; }
+}
+
+/* ---------- work screenshots ---------- */
+
+/* thumbnail inside a work card on the landing page */
+.shot-thumb {
+  display: block;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--card-3);
+  aspect-ratio: 16 / 10;
+  margin-bottom: 2px;
+}
+.shot-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 0%;
+  transition: transform .6s cubic-bezier(.2,.8,.3,1);
+}
+a.card:hover .shot-thumb img { transform: scale(1.03); }
+.work-feat .shot-thumb { border-color: rgba(255,255,255,.3); }
+
+/* gallery on a case study page */
+.shots { display: grid; gap: var(--gap); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.shots.one { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 700px) { .shots { grid-template-columns: minmax(0, 1fr); } }
+
+.shot { margin: 0; display: grid; gap: 10px; min-width: 0; align-content: start; }
+.shot-frame {
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--card-3);
+}
+.shot-frame img { width: 100%; height: auto; display: block; }
+.shot figcaption { font-size: var(--t-xs); color: var(--fg-3); line-height: 1.45; }
+
+/* ---------- funnel gallery ---------- */
+
+.gal { gap: 12px; padding: 14px 14px 16px; }
+.gal-frame {
+  display: block;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--card-3);
+  aspect-ratio: 4 / 3;
+}
+.gal-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 0%;
+  transition: transform .7s cubic-bezier(.2,.8,.3,1);
+}
+.gal:hover .gal-frame img { transform: scale(1.04); }
+.gal figcaption {
+  font-size: var(--t-xs);
+  color: var(--fg-2);
+  letter-spacing: .01em;
+  padding-inline: 2px;
+}
+@media (max-width: 860px) { .gal { grid-column: span 3 !important; } }
+.gal-frame { aspect-ratio: 16 / 11; }
+
+/* accent palette: blue */
+:root{--accent:#1F5FD0;--accent-2:#1A47A8;--accent-text:#72A6FF;--accent-ink:#FFFFFF;--accent-dim:rgba(77,141,247,.15);}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--accent:#1B5FD9;--accent-2:#0F3F9C;--accent-text:#14529E;--accent-ink:#FFFFFF;--accent-dim:rgba(27,95,217,.10);}}
+:root[data-theme="light"]{--accent:#1B5FD9;--accent-2:#0F3F9C;--accent-text:#14529E;--accent-ink:#FFFFFF;--accent-dim:rgba(27,95,217,.10);}
+
+</style>
+
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="wrap">
+    <div class="nav-in">
+      <a class="brand" href="#top"><span class="dot"></span>Joseph Akintayo</a>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#work">Work</a>
+        <a href="#gallery">Funnels</a>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#about">About</a>
+      </nav>
+      <button id="themeToggle" class="icon-btn" type="button" aria-label="Switch colour theme">
+  <svg class="i-moon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 9.6A5.8 5.8 0 0 1 6.4 2.5 5.8 5.8 0 1 0 13.5 9.6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+  <svg class="i-sun" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+</button>
+      <a class="btn btn-primary" href="#contact">Free audit <svg class="arr" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <!-- hero -->
+  <section class="sect" id="top">
+    <div class="wrap row">
+      <div class="card hero-card" style="grid-column:span 8">
+        <div class="eye">GoHighLevel systems · AI video creative</div>
+        <h1>Lead systems don't leak at the ad. They leak <span class="hl">between the click and the call.</span></h1>
+        <p class="lede">I build the GoHighLevel pipeline that closes that gap — the landing page, the CRM, the follow-up that fires in minutes, and the AI video creative feeding the top of it. One person builds all three, so nothing is lost between them.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#work">See the work <svg class="arr" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="btn btn-ghost" href="#contact">Free system audit <svg class="arr" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <figure class="card portrait" style="grid-column:span 4;margin:0">
+        <img src="assets/joseph-hero.jpg" alt="Joseph Akintayo, GoHighLevel and marketing automation specialist" width="1100" height="1534">
+        <figcaption class="tag"><span class="live"></span>Lagos, Nigeria — available for new work</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ticker -->
+  <section class="sect" style="padding-block:4px">
+    <div class="wrap">
+      <div class="ticker" aria-hidden="true"><div class="ticker-in"><span>GoHighLevel</span><span>HeyGen</span><span>Synthesia</span><span>Vapi</span><span>Retell</span><span>Zapier</span><span>Make.com</span><span>n8n</span><span>Klaviyo</span><span>Mailchimp</span><span>ActiveCampaign</span><span>Brevo</span><span>MailerLite</span><span>Omnisend</span><span>Smartlead</span><span>Airtable</span><span>Notion</span><span>Google Apps Script</span><span>Looker Studio</span><span>ServiceTitan</span><span>Vagaro</span><span>Shopify</span><span>Framer</span><span>Figma</span><span>Twilio</span><span>Stripe</span><span>Puppeteer</span><span>ElevenLabs</span></div></div>
+    </div>
+  </section>
+
+  <!-- stats -->
+  <section class="sect" id="proof">
+    <div class="wrap row">
+      <div class="card stat reveal" style="grid-column:span 3">
+          <div class="v"><span data-count="40">0</span><span>+</span></div>
+          <div class="l">GoHighLevel systems built</div>
+          <div class="n">solo, no subcontractors</div>
+        </div>
+        <div class="card stat reveal" style="grid-column:span 3">
+          <div class="v"><span data-count="57">0</span></div>
+          <div class="l">Upwork contracts</div>
+          <div class="n">48 fixed-price, 9 hourly</div>
+        </div>
+        <div class="card stat reveal" style="grid-column:span 3">
+          <div class="v"><span data-count="6">0</span></div>
+          <div class="l">Certifications</div>
+          <div class="n">GoHighLevel & HubSpot</div>
+        </div>
+        <div class="card stat reveal" style="grid-column:span 3">
+          <div class="v"><span data-count="35">0</span></div>
+          <div class="l">Client reviews</div>
+          <div class="n">Top Rated on Upwork</div>
+        </div>
+    </div>
+  </section>
+
+  <!-- pipeline -->
+  <section class="sect">
+    <div class="wrap row">
+      <div class="card reveal" id="pipe" style="grid-column:span 12">
+        <div class="pipe-head">
+          <span>The lead journey · <span id="pipeStage">Ad seen</span></span>
+          <span>elapsed <b id="pipeClock">T+00.0s</b></span>
+        </div>
+        <div class="pipe-track">
+          <div class="node" data-stage="Ad seen">
+            <span class="n">01</span>
+            <span class="t">Ad seen</span>
+            <span class="bar"><i></i></span>
+          </div>
+          <div class="node" data-stage="Page opened">
+            <span class="n">02</span>
+            <span class="t">Page opened</span>
+            <span class="bar"><i></i></span>
+          </div>
+          <div class="node" data-stage="Lead captured">
+            <span class="n">03</span>
+            <span class="t">Lead captured</span>
+            <span class="bar"><i></i></span>
+          </div>
+          <div class="node" data-stage="Replied to">
+            <span class="n">04</span>
+            <span class="t">Replied to</span>
+            <span class="bar"><i></i></span>
+          </div>
+          <div class="node" data-stage="Call booked">
+            <span class="n">05</span>
+            <span class="t">Call booked</span>
+            <span class="bar"><i></i></span>
+          </div>
+          <div class="node" data-stage="Showed up">
+            <span class="n">06</span>
+            <span class="t">Showed up</span>
+            <span class="bar"><i></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- leaks -->
+  <section class="sect" id="leaks">
+    <div class="wrap">
+      <div class="sect-head reveal">
+        <div class="eye">The problem</div>
+        <h2>Four places the money is already leaking</h2>
+        <p>Every one of these is budget you have already spent, draining at a point nobody is watching. They are also the four things I get asked to fix most often.</p>
+      </div>
+      <div class="row">
+        <article class="card leak reveal" style="grid-column:span 6">
+          <div class="eye st">Between click and page</div>
+          <h3>The page doesn’t match what the ad promised</h3>
+          <p>Traffic arrives warm and lands on a page written for a different offer. The bounce looks like a creative problem, so the ad gets blamed and replaced, and the page stays broken.</p>
+        </article>
+        <article class="card leak reveal" style="grid-column:span 6">
+          <div class="eye st">Between form and first contact</div>
+          <h3>The lead sits unanswered for six hours</h3>
+          <p>Speed to lead is the single cheapest thing to fix and the most commonly broken. A workflow that fires within minutes, day or night, is a one-day build that changes the economics of the whole account.</p>
+        </article>
+        <article class="card leak reveal" style="grid-column:span 6">
+          <div class="eye st">Between booking and showing</div>
+          <h3>The call gets booked and nobody shows</h3>
+          <p>No-show rate is a reminder problem far more often than it is a lead quality problem. Reminder sequencing, confirmation logic and a reschedule path recover most of it.</p>
+        </article>
+        <article class="card leak reveal" style="grid-column:span 6">
+          <div class="eye st">Between tools</div>
+          <h3>Nobody knows how the account actually works</h3>
+          <p>An account set up by someone who has moved on, with workflows nobody will touch in case something breaks. Every build I hand over comes with training and documentation so you own it.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- services -->
+  <section class="sect" id="services">
+    <div class="wrap">
+      <div class="sect-head reveal">
+        <div class="eye">Specialization</div>
+        <h2>Three layers, built by one person so nothing is lost between them</h2>
+        <p>Most teams brief the ad to one freelancer, the page to another and the follow-up to a third, then wonder why the handoffs leak. I build all three against the same map.</p>
+      </div>
+      <div class="row">
+        <article class="card svc reveal" id="svc-ghl" style="grid-column:span 4">
+          <div class="eye">01 · Service</div>
+          <h3>GoHighLevel CRM & automation</h3>
+          <p class="lede">The engine room. Pipelines that match how you actually sell, and follow-up that runs whether or not anyone is at a desk.</p>
+          <ul><li>Full CRM buildout and pipeline design around your real sales process</li><li>Lead response automation that fires within minutes, day or night</li><li>Reminder and confirmation sequences that cut no-shows</li><li>Email & SMS with deliverability configured properly (SPF, DKIM, DMARC)</li><li>A2P 10DLC registration and compliance, done right the first time</li><li>CRM migration into GHL, or white-label back to standard GHL</li><li>Zapier, Make, n8n, Stripe, Twilio, calendar and API integrations</li><li>AI voice agents answering missed calls and booking 24/7 (Vapi, Retell, GHL Voice AI)</li></ul>
+        </article>
+        <article class="card svc reveal" id="svc-funnels" style="grid-column:span 4">
+          <div class="eye">02 · Service</div>
+          <h3>Funnels & landing pages</h3>
+          <p class="lede">The surface the traffic actually touches, built to match the creative that sent it there rather than fight it.</p>
+          <ul><li>Landing pages built against the specific offer and creative driving them</li><li>Discovery call funnels that qualify before the lead reaches your calendar</li><li>Membership, course and checkout funnels</li><li>Full website builds inside GoHighLevel</li><li>SaaS Mode and white-label agency configuration</li></ul>
+        </article>
+        <article class="card svc reveal" id="svc-video" style="grid-column:span 4">
+          <div class="eye">03 · Service</div>
+          <h3>AI video ad creative</h3>
+          <p class="lede">The top of the funnel. Multiple hooks and variations per concept, so there is something real to test instead of one finished video.</p>
+          <ul><li>AI UGC and avatar-style ads with HeyGen and Synthesia</li><li>Generative footage with Runway, Veo, Sora and Kling for A/B testing</li><li>Voiceover and multilingual dubbing with ElevenLabs</li><li>Editing and captions, delivered as a hook set rather than a single cut</li><li>Creative mapped to the funnel stage it is meant to feed</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- work -->
+  <section class="sect" id="work">
+    <div class="wrap">
+      <div class="sect-head reveal">
+        <div class="eye">Showcase</div>
+        <h2>Seven systems, written up properly</h2>
+        <p>Each one has its own page: the situation, what got built, the logic behind it, and where it landed.</p>
+      </div>
+      <div class="row">
+        <a class="card work-card reveal work-feat" href="work/vistas-nps-loop.html" style="grid-column:span 6">
+          
+          <div class="w-top">
+            <span class="w-i">01 — Vistas Golf & Country Club</span>
+            <svg class="w-go" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Turning a survey archive into a same-day service recovery loop</h3>
+          <p>A multi-stage NPS automation that scores every member response, routes detractors to a named human within minutes, and gives leadership a live view of satisfaction by segment.</p>
+          <div class="tags"><span class="chip">Google Apps Script</span><span class="chip">Looker Studio</span><span class="chip">Brevo</span></div>
+        </a>
+        <a class="card work-card reveal" href="work/sagitta-retention-engine.html" style="grid-column:span 6">
+          <span class="shot-thumb"><img src="assets/work/ghl-workflow-list.jpg" alt="A GoHighLevel automation workflow list" loading="lazy"></span>
+          <div class="w-top">
+            <span class="w-i">02 — Sagitta Fitness and Wellness</span>
+            <svg class="w-go" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>An attendance-driven retention engine with Green, Amber and Red states</h3>
+          <p>A full GoHighLevel system for an Australian studio: a 30-day onboarding sequence, a retention engine that reads attendance and moves members between three states, and auto-reply handling for inbound messages.</p>
+          <div class="tags"><span class="chip">GoHighLevel</span><span class="chip">Workflow automation</span><span class="chip">Retention</span></div>
+        </a>
+        <a class="card work-card reveal" href="work/aos-vagaro-migration.html" style="grid-column:span 4">
+          <span class="shot-thumb"><img src="assets/work/pipeline-stages.jpg" alt="A GoHighLevel opportunities pipeline with stage columns" loading="lazy"></span>
+          <div class="w-top">
+            <span class="w-i">03 — AOS Aesthetics</span>
+            <svg class="w-go" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>A Vagaro-to-GoHighLevel migration with two stages that fire, not label</h3>
+          <p>A six-stage Member Experience Pipeline built during a platform migration, where Delinquent and Churned are trigger stages that start recovery workflows rather than labels someone reads later.</p>
+          <div class="tags"><span class="chip">GoHighLevel</span><span class="chip">Vagaro migration</span><span class="chip">Pipeline design</span></div>
+        </a>
+        <a class="card work-card reveal" href="work/cold-outreach-infrastructure.html" style="grid-column:span 4">
+          <span class="shot-thumb"><img src="assets/work/spf-glockapps.jpg" alt="GlockApps deliverability test results" loading="lazy"></span>
+          <div class="w-top">
+            <span class="w-i">04 — Cold outreach infrastructure</span>
+            <svg class="w-go" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Seven domains, seventy inboxes, and two weeks of warmup before a single send</h3>
+          <p>A full sending infrastructure buildout: seven domains authenticated with DKIM, DMARC and SPF, seventy inboxes provisioned, and a two-week Smartlead warmup ramp completed before any campaign traffic was allowed through.</p>
+          <div class="tags"><span class="chip">Deliverability</span><span class="chip">Smartlead</span><span class="chip">DKIM / DMARC / SPF</span></div>
+        </a>
+        <a class="card work-card reveal" href="work/framer-ghl-journeys.html" style="grid-column:span 4">
+          
+          <div class="w-top">
+            <span class="w-i">05 — Automotive repair group</span>
+            <svg class="w-go" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Six customer journeys specified as IF/THEN tables before a single workflow was built</h3>
+          <p>Scoped and documented as delivery specialist: a Framer-to-GoHighLevel CRM integration mapping six distinct customer journey types, each with a full IF/THEN logic table covering entry, branching and exit.</p>
+          <div class="tags"><span class="chip">Framer → GHL</span><span class="chip">Logic specification</span><span class="chip">Delivery</span></div>
+        </a>
+        <a class="card work-card reveal" href="work/dedupe-and-dispatch.html" style="grid-column:span 4">
+          
+          <div class="w-top">
+            <span class="w-i">06 — Integration builds</span>
+            <svg class="w-go" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Stopping one customer from becoming three contacts</h3>
+          <p>Two integration builds: a Shopify-to-GoHighLevel deduplication and merge workflow in Zapier, and a GoHighLevel-to-ServiceTitan integration pushing qualified work into a field service system.</p>
+          <div class="tags"><span class="chip">Zapier</span><span class="chip">Shopify</span><span class="chip">ServiceTitan</span></div>
+        </a>
+        <a class="card work-card reveal" href="work/klaviyo-template-system.html" style="grid-column:span 4">
+          
+          <div class="w-top">
+            <span class="w-i">07 — Dutch natural flower brand</span>
+            <svg class="w-go" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>A Figma-to-Klaviyo template system that stays editable after handover</h3>
+          <p>A modular email template system for a Dutch natural flower brand, designed in Figma and rebuilt as live, editable Klaviyo blocks rather than sliced images — so the brand can ship campaigns without a designer.</p>
+          <div class="tags"><span class="chip">Klaviyo</span><span class="chip">Figma</span><span class="chip">Email design</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- funnel gallery -->
+  <section class="sect" id="gallery">
+    <div class="wrap">
+      <div class="sect-head reveal">
+        <div class="eye">Built in GoHighLevel</div>
+        <h2>Funnel and landing page builds</h2>
+        <p>Pages built page by page in GoHighLevel — layout, section structure and the flow from opt-in to thank-you. These are build examples carrying placeholder branding and demo copy, not live client funnels; client accounts stay private. The structure is the work.</p>
+      </div>
+      <div class="row">
+        <figure class="card gal reveal" style="grid-column:span 6;margin:0">
+          <span class="gal-frame"><img src="assets/work/funnel-coach-connect.jpg" alt="Coaching — 3-page discovery funnel" loading="lazy"></span>
+          <figcaption>Coaching — 3-page discovery funnel</figcaption>
+        </figure>
+        <figure class="card gal reveal" style="grid-column:span 6;margin:0">
+          <span class="gal-frame"><img src="assets/work/funnel-gym-fitness.jpg" alt="Gym & fitness — 2-page lead capture" loading="lazy"></span>
+          <figcaption>Gym & fitness — 2-page lead capture</figcaption>
+        </figure>
+        <figure class="card gal reveal" style="grid-column:span 4;margin:0">
+          <span class="gal-frame"><img src="assets/work/funnel-smart-finance.jpg" alt="Finance — 2-page opt-in flow" loading="lazy"></span>
+          <figcaption>Finance — 2-page opt-in flow</figcaption>
+        </figure>
+        <figure class="card gal reveal" style="grid-column:span 4;margin:0">
+          <span class="gal-frame"><img src="assets/work/funnel-saas.jpg" alt="SaaS — 2-page product funnel" loading="lazy"></span>
+          <figcaption>SaaS — 2-page product funnel</figcaption>
+        </figure>
+        <figure class="card gal reveal" style="grid-column:span 4;margin:0">
+          <span class="gal-frame"><img src="assets/work/funnel-masterclass.jpg" alt="Masterclass — 9-page launch funnel" loading="lazy"></span>
+          <figcaption>Masterclass — 9-page launch funnel</figcaption>
+        </figure>
+        <figure class="card gal reveal" style="grid-column:span 4;margin:0">
+          <span class="gal-frame"><img src="assets/work/funnel-weight-loss.jpg" alt="Weight loss — 4-page offer funnel" loading="lazy"></span>
+          <figcaption>Weight loss — 4-page offer funnel</figcaption>
+        </figure>
+        <figure class="card gal reveal" style="grid-column:span 4;margin:0">
+          <span class="gal-frame"><img src="assets/work/funnel-seo-agency.jpg" alt="SEO agency — 6-page sales funnel" loading="lazy"></span>
+          <figcaption>SEO agency — 6-page sales funnel</figcaption>
+        </figure>
+        <figure class="card gal reveal" style="grid-column:span 4;margin:0">
+          <span class="gal-frame"><img src="assets/work/funnel-construction.jpg" alt="Construction — 2-page site build" loading="lazy"></span>
+          <figcaption>Construction — 2-page site build</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- process -->
+  <section class="sect" id="process">
+    <div class="wrap">
+      <div class="sect-head reveal">
+        <div class="eye">How I work</div>
+        <h2>Five steps, and the audit comes first</h2>
+        <p>The order matters more than the list. Creative pointed at a broken follow-up only spends the budget faster.</p>
+      </div>
+      <div class="row">
+        <article class="card step reveal" style="grid-column:span 6">
+          <div class="eye n">Step 01</div>
+          <h3>Audit</h3>
+          <p>I go through what is running now — the GHL account, the pages, the ads — and map where performance drops off. You get the audit and a roadmap of what to fix first, in order, before any money changes hands.</p>
+        </article>
+        <article class="card step reveal" style="grid-column:span 6">
+          <div class="eye n">Step 02</div>
+          <h3>Map the journey</h3>
+          <p>First scroll, to click, to opt-in, to booked call, to client. Written out as stages with entry conditions and exit criteria, so we are both looking at the same system instead of a list of tasks.</p>
+        </article>
+        <article class="card step reveal" style="grid-column:span 4">
+          <div class="eye n">Step 03</div>
+          <h3>Build</h3>
+          <p>Automation first, then the page, then the creative. That order is deliberate: creative pointed at a broken follow-up just spends money faster.</p>
+        </article>
+        <article class="card step reveal" style="grid-column:span 4">
+          <div class="eye n">Step 04</div>
+          <h3>Test end to end</h3>
+          <p>I run the full journey myself as if I were the lead. Fill the form, wait for the SMS, take the reminder, sit through the reschedule path. Logic tables are checked branch by branch.</p>
+        </article>
+        <article class="card step reveal" style="grid-column:span 4">
+          <div class="eye n">Step 05</div>
+          <h3>Handover</h3>
+          <p>A walkthrough of everything built, documentation of the workflows, and I stay available afterwards. You own what gets built — there is no snapshot I can take back.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- about -->
+  <section class="sect" id="about">
+    <div class="wrap row">
+      <figure class="card portrait reveal" style="grid-column:span 4;margin:0;min-height:360px">
+        <img src="assets/joseph-about.jpg" alt="Portrait of Joseph Akintayo" width="900" height="1268" loading="lazy">
+        <figcaption class="tag"><span class="live"></span>Top Rated on Upwork</figcaption>
+      </figure>
+      <div class="card about-copy reveal" style="grid-column:span 8">
+        <div class="eye">More about me</div>
+        <h2>One person builds the automation, the page and the creative</h2>
+        <p>I am Joseph Akintayo, a GoHighLevel and marketing automation specialist working out of Lagos. Forty-plus GHL systems delivered across fifty-seven Upwork contracts, every one custom — I don’t resell a recycled snapshot.</p>
+        <p>Most of my work sits in the unglamorous middle of a funnel: the workflow that fires at 2am, the dedupe rule that stops one customer becoming three contacts, the DMARC record that decides whether a campaign lands in an inbox or a spam folder. It is the part clients rarely see and always feel.</p>
+        <p>I work with coaches and consultants, agencies, real estate teams, clinics and med spas, insurance, home services, e-commerce brands and education businesses — anyone running paid traffic into a lead-to-close pipeline.</p>
+        <dl class="facts"><div class="fact"><dt>Based in</dt><dd>Lagos, Nigeria · WAT (UTC+1)</dd></div><div class="fact"><dt>Hours</dt><dd>US & UK overlap, same-day replies</dd></div><div class="fact"><dt>Languages</dt><dd>English (native) · Spanish, French, Portuguese (basic)</dd></div><div class="fact"><dt>Industries</dt><dd>Coaching · agencies · real estate · clinics · insurance · home services · e-commerce · education</dd></div></dl>
+      </div>
+      <div class="card reveal" style="grid-column:span 5">
+        <div class="eye">Credentials</div>
+        <h3>Certifications</h3>
+        <div class="certs"><div class="cert"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>GoHighLevel CRM & Automation</span></div><div class="cert"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>GoHighLevel Sales Funnel & Landing Page</span></div><div class="cert"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>GoHighLevel Email Deliverability</span></div><div class="cert"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>GoHighLevel A2P 10DLC Compliance</span></div><div class="cert"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>GoHighLevel SaaS Mode & White Label</span></div><div class="cert"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>HubSpot Design Certification</span></div></div>
+      </div>
+      <div class="card result reveal" style="grid-column:span 7">
+        <div class="eye" style="color:rgba(255,255,255,.75)">A result</div>
+        <div class="fig">40%</div>
+        <p>A fitness coaching client was losing bookings to no-shows and slow follow-up. I rebuilt the booking flow in GoHighLevel, added automated reminders, and built a lead-response workflow triggering within minutes of opt-in. No-shows dropped 40% in the first month.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- contact -->
+  <section class="sect" id="contact">
+    <div class="wrap row">
+      <div class="card contact-card reveal" style="grid-column:span 7">
+        <div class="eye">Next step</div>
+        <h2>Send me what is running now. I will send back an audit.</h2>
+        <p class="lede">The GoHighLevel account, the landing page, the ads, or all three. You get back where the journey leaks and a roadmap of what to fix first, in order — before anything is agreed.</p>
+        <div class="links">
+          <a class="btn btn-primary" href="https://www.upwork.com/freelancers/~01e9e1889e1da10893" target="_blank" rel="noopener">Hire me on Upwork <svg class="arr" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="btn btn-ghost" href="https://youtu.be/71R8OdwwxrU" target="_blank" rel="noopener">Watch the intro <svg class="arr" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="card reveal" style="grid-column:span 5">
+        <div class="eye">Stay in touch</div>
+        <div class="copyrow">
+          <div><div class="k">Email</div><div class="v">jmarketinx@gmail.com</div></div>
+          <button type="button" data-copy="jmarketinx@gmail.com">Copy</button>
+        </div>
+        <div class="copyrow">
+          <div><div class="k">Phone / WhatsApp</div><div class="v">+234 806 596 6475</div></div>
+          <button type="button" data-copy="+234 806 596 6475">Copy</button>
+        </div>
+        <div class="copyrow">
+          <div><div class="k">Hours</div><div class="v" style="font-weight:400;color:var(--fg-2)">WAT · UTC+1 — works US & UK hours</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>© 2026 Joseph Akintayo · Lagos, Nigeria</span>
+    <span>WAT · UTC+1 — works US & UK hours</span>
+    <span><a href="https://www.upwork.com/freelancers/~01e9e1889e1da10893" target="_blank" rel="noopener">Upwork</a> · <a href="#contact">Contact</a></span>
+  </div>
+</footer>
+<script>
+(function () {
+  "use strict";
+
+  var root = document.documentElement;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- theme ---------- */
+
+  function readTheme() {
+    try { return localStorage.getItem("ja-theme"); } catch (e) { return null; }
+  }
+  function writeTheme(v) {
+    try { localStorage.setItem("ja-theme", v); } catch (e) {}
+  }
+
+  var saved = readTheme();
+  if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
+
+  function currentTheme() {
+    var attr = root.getAttribute("data-theme");
+    if (attr) return attr;
+    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  }
+
+  var toggle = document.getElementById("themeToggle");
+  if (toggle) {
+    toggle.addEventListener("click", function () {
+      var next = currentTheme() === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      writeTheme(next);
+      toggle.setAttribute("aria-label", next === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    });
+  }
+
+  /* ---------- sticky nav state ---------- */
+
+  var nav = document.querySelector(".nav");
+  if (nav) {
+    var onScroll = function () {
+      nav.classList.toggle("is-stuck", window.scrollY > 8);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+
+  /* ---------- reveal on scroll ----------
+     The page is complete at rest: elements are visible by default.
+     Only items below the first viewport get a pre-state, added here
+     by script, so the first painted frame always shows everything. */
+
+  var revealables = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  if (!reduce && "IntersectionObserver" in window && revealables.length) {
+    var vh = window.innerHeight;
+    var pending = revealables.filter(function (el) {
+      return el.getBoundingClientRect().top > vh * 0.9;
+    });
+    pending.forEach(function (el, i) {
+      el.classList.add("is-pre");
+      el.style.transitionDelay = (Math.min(i, 4) * 60) + "ms";
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.remove("is-pre");
+          io.unobserve(en.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    pending.forEach(function (el) { io.observe(el); });
+    // failsafe: nothing stays hidden if the observer never fires
+    // (page capture, restored scroll position, odd embeddings)
+    setTimeout(function () {
+      pending.forEach(function (el) { el.classList.remove("is-pre"); });
+    }, 2500);
+  }
+
+  /* ---------- counters ---------- */
+
+  var counters = Array.prototype.slice.call(document.querySelectorAll("[data-count]"));
+  function runCount(el) {
+    var target = parseFloat(el.getAttribute("data-count"));
+    if (isNaN(target)) return;
+    if (reduce) { el.textContent = String(target); return; }
+    var start = performance.now();
+    var dur = 1100;
+    function tick(now) {
+      var p = Math.min(1, (now - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = String(Math.round(target * eased));
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  if (counters.length) {
+    if ("IntersectionObserver" in window) {
+      var co = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { runCount(en.target); co.unobserve(en.target); }
+        });
+      }, { threshold: 0.4 });
+      counters.forEach(function (el) { co.observe(el); });
+    } else {
+      counters.forEach(runCount);
+    }
+  }
+
+  /* ---------- hero pipeline ---------- */
+
+  var pipe = document.getElementById("pipe");
+  if (pipe) {
+    var nodes = Array.prototype.slice.call(pipe.querySelectorAll(".node"));
+    var clock = document.getElementById("pipeClock");
+    var label = document.getElementById("pipeStage");
+
+    if (reduce) {
+      nodes.forEach(function (n) { n.classList.add("is-done"); });
+      if (clock) clock.textContent = "static";
+      if (label) label.textContent = "motion reduced";
+    } else {
+      var DWELL = 1150;
+      var idx = 0;
+      var t0 = performance.now();
+      var running = true;
+
+      function paint() {
+        nodes.forEach(function (n, i) {
+          n.classList.toggle("is-live", i === idx);
+          n.classList.toggle("is-done", i < idx);
+          var bar = n.querySelector(".bar i");
+          if (bar) bar.style.width = i < idx ? "100%" : i === idx ? "100%" : "0%";
+        });
+        if (label) label.textContent = nodes[idx].getAttribute("data-stage") || "";
+      }
+
+      function step() {
+        if (!running) return;
+        idx += 1;
+        if (idx >= nodes.length) {
+          idx = 0;
+          t0 = performance.now();
+          nodes.forEach(function (n) {
+            n.classList.remove("is-done", "is-live");
+            var bar = n.querySelector(".bar i");
+            if (bar) bar.style.width = "0%";
+          });
+        }
+        paint();
+        setTimeout(step, idx === 0 ? DWELL + 500 : DWELL);
+      }
+
+      function tickClock(now) {
+        if (!running) return;
+        if (clock) {
+          var s = (now - t0) / 1000;
+          clock.textContent = "T+" + s.toFixed(1).padStart(4, "0") + "s";
+        }
+        requestAnimationFrame(tickClock);
+      }
+
+      paint();
+      setTimeout(step, DWELL);
+      requestAnimationFrame(tickClock);
+
+      document.addEventListener("visibilitychange", function () {
+        running = !document.hidden;
+        if (running) { t0 = performance.now(); setTimeout(step, DWELL); requestAnimationFrame(tickClock); }
+      });
+    }
+  }
+
+  /* ---------- marquee: duplicate the track so the loop is seamless ---------- */
+
+  var mq = document.querySelector(".marquee-in");
+  if (mq && !reduce) {
+    mq.innerHTML = mq.innerHTML + mq.innerHTML;
+  }
+
+  /* ---------- copy buttons ---------- */
+
+  Array.prototype.slice.call(document.querySelectorAll("[data-copy]")).forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var text = btn.getAttribute("data-copy");
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = "Copied";
+        btn.classList.add("ok");
+        setTimeout(function () { btn.textContent = old; btn.classList.remove("ok"); }, 1600);
+      };
+      var fallback = function () {
+        var row = btn.closest(".copyrow");
+        var v = row && row.querySelector(".v");
+        if (v && window.getSelection) {
+          var r = document.createRange();
+          r.selectNodeContents(v);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(r);
+          btn.textContent = "Selected";
+          setTimeout(function () { btn.textContent = "Copy"; }, 1600);
+        }
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  });
+
+  /* ---------- active section in nav ---------- */
+
+  var sectionLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+  if (sectionLinks.length && "IntersectionObserver" in window) {
+    var map = {};
+    sectionLinks.forEach(function (a) {
+      var el = document.getElementById(a.getAttribute("href").slice(1));
+      if (el) map[el.id] = a;
+    });
+    var so = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          sectionLinks.forEach(function (a) { a.classList.remove("is-active"); });
+          if (map[en.target.id]) map[en.target.id].classList.add("is-active");
+        }
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    Object.keys(map).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) so.observe(el);
+    });
+  }
+})();
+
+</script>
