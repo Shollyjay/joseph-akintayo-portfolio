@@ -95,87 +95,31 @@ that client's, say so in the caption.
 
 ## Deploy
 
-`dist/` is a plain static folder. Drag it into Netlify Drop, or point Vercel,
-Cloudflare Pages or GitHub Pages at it. It needs no server.
+`dist/` is a complete, self-contained static site — `index.html` and the case
+study pages are all full HTML documents, and every asset is local. No build
+step is needed on the host.
 
-Note: `dist/index.html` is published here as a Claude artifact, where the host
-supplies the `<!doctype>`, `<head>` and `<body>` wrapper. If you deploy to your
-own host instead, wrap `index.html` the way the case study pages are wrapped —
-copy the first ten lines and the last three lines of any file in `dist/work/`.
-A one-line change in `build.js` (`buildIndex`) can do this permanently.
+**Netlify Drop** (fastest, no account needed to preview): drag the `dist`
+folder onto <https://app.netlify.com/drop>. You get a live URL immediately.
 
-## Things to confirm before you send this to a client
+**GitHub Pages**: push this repo, then Settings → Pages → Source: *Deploy from
+a branch*, branch `main`, folder `/dist`. The site appears at
+`https://<username>.github.io/<repo>/` within a minute or two. Naming the repo
+`<username>.github.io` instead serves it at the root domain.
 
-1. **AOS Aesthetics pipeline stages 01–04.** I only had the two trigger stages
-   (Delinquent, Churned) from your resume, so the first four are shown as
-   numbered lifecycle stages. Put the real names in `content.js` under
-   `aos-vagaro-migration`, and in `src/schematics.js` → `pipeline6`.
-2. **Outcome numbers.** Every case study ends with what shipped, not with an
-   invented metric. The only percentage anywhere on the site is the 40% no-show
-   drop, which is your own wording from Upwork. If you have real figures for
-   any project, the "Where it landed" section is where they go.
-3. **Client permission** for the named clients (Vistas, Sagitta, AOS).
-4. **Your rate.** Deliberately not on the site. Your Upwork rate is $15/hr and
-   the proposals in your resume are $3,500–$8,500; those two numbers tell very
-   different stories to a buyer.
+**Vercel / Cloudflare Pages**: point either at the repo with no build command
+and `dist` as the output directory.
 
-## Colour and type
+A custom domain is a CNAME at whichever host you pick; GitHub Pages also wants
+a `CNAME` file in `dist/` containing the bare domain.
 
-Design tokens are the first block in `src/site.css`. The visual direction
-follows the Gridly template: a flat near-black ground (#0F0F0F) with every
-block drawn as a bento card — a 1px white-8% hairline, 30px radius, 20px
-gutter — rather than a filled panel. Type is Inter throughout at weight 500,
-with small letter-spaced uppercase eyebrows above the card titles.
+### Two homepage builds
 
-### Changing the accent
+`build.js` writes the homepage twice from the same source:
 
-Accent palettes live in `content.js`. Switch the whole site with one line:
+- `dist/index.html` — a complete document with doctype, charset, viewport and
+  Open Graph meta. **This is the one you host.**
+- `.artifact/index.html` — the same page as a bare fragment, for the Claude
+  artifact host, which supplies its own wrapper. Git-ignored; never deploy it.
 
-```js
-const activePalette = "blue";    // "blue" | "amber" | "red"
-```
-
-then `node build.js`. Each palette carries a dark and a light variant with
-four roles: `accent` (fills), `text` (accent used as ink or a small mark —
-darker in light mode so it stays readable), `ink` (what sits on the fill) and
-`dim` (the tint behind live states). Adding a palette means adding one entry.
-
-Blue is the current choice, and the two blue roles are deliberately different
-values. `accent` (the fill: #1F5FD0 dark, #1B5FD9 light) is deep enough that
-**white** ink passes AA on it — 5.8:1. `text` (#72A6FF dark, #14529E light) is
-the accent used as ink or a small mark on the page background, so it goes the
-other way: bright on the dark ground, dark on light cards.
-
-This matters. An earlier pass used a brighter fill (#4D8DF7) with near-black
-ink, which technically passed at 5.7:1 but read as muddy. White on that same
-fill would have been *worse* — only 3.25:1, a fail. Deepening the fill is what
-makes white work; swapping the ink alone does not. If you ever change the
-accent, check both roles rather than picking one hex.
-
-Borders, focus rings and the pipeline's live-state use `text`, not `accent`,
-so they stay visible against the dark cards.
-
-Contrast now: 5.8:1 white on the fill, 8.4:1 white on the featured tile's
-gradient end, 7.9:1 accent text on the dark ground, 7.7:1 on light cards.
-Buttons are weight 600 — small text on a colour fill needs it.
-
-Trade-off worth knowing: GoHighLevel's own UI is blue, so the work screenshots
-are full of blue and the featured tile sits next to them. If that section ever
-feels flat, `amber` separates hardest from the screenshots.
-
-The accent is used sparingly either way: one featured work tile, the result
-tile, the primary button, and the highlighted half of the headline.
-
-Light mode is not in the original template, so it is a built counterpart on
-the same bones: white cards on #F1F1F1 and hairlines at black-10%.
-
-Dark and light both ship. The toggle is in the header; with no choice saved the
-site follows the visitor's system setting. The choice persists in
-`localStorage`.
-
-## Accessibility and motion
-
-- Skip link, visible focus rings, real text everywhere (no text baked into images).
-- Every diagram carries an `aria-label` describing what it shows.
-- `prefers-reduced-motion` turns off the hero animation, the marquee and the
-  scroll reveals.
+The case study pages under `dist/work/` are complete documents in both cases.
