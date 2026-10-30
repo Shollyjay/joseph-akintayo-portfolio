@@ -1,5 +1,7 @@
 # Joseph Akintayo — portfolio site
 
+**Live:** https://shollyjay.github.io/joseph-akintayo-portfolio/
+
 Static site. No framework, no build dependencies, no npm install. Node is used
 only to stamp out the pages from one content file.
 
