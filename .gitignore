@@ -7,7 +7,7 @@ Thumbs.db
 .cache/
 tmp/
 
-# dist/ IS committed on purpose — it is the deployable site, and the host
+# docs/ IS committed on purpose — it is the deployable site, and the host
 # (Netlify Drop, Pages, Vercel) serves it directly with no build step.
 # Remove the line below only if you add CI that runs `node build.js`.
 

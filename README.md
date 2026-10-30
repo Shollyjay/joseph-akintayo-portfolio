@@ -11,8 +11,8 @@ src/site.css        all styling (design tokens live at the top)
 src/site.js         theme toggle, scroll reveals, hero pipeline animation
 src/schematics.js   the seven case-study diagrams (inline SVG)
 assets/             the two portraits
-build.js            assembles dist/
-dist/               the finished site — this is what you deploy
+build.js            assembles docs/
+docs/               the finished site — this is what you deploy
 ```
 
 ## Rebuild after an edit
@@ -21,7 +21,7 @@ dist/               the finished site — this is what you deploy
 node build.js
 ```
 
-That regenerates `dist/index.html` and `dist/work/*.html`.
+That regenerates `docs/index.html` and `docs/work/*.html`.
 
 ## The screenshots
 
@@ -95,31 +95,33 @@ that client's, say so in the caption.
 
 ## Deploy
 
-`dist/` is a complete, self-contained static site — `index.html` and the case
+`docs/` is a complete, self-contained static site — `index.html` and the case
 study pages are all full HTML documents, and every asset is local. No build
 step is needed on the host.
 
-**Netlify Drop** (fastest, no account needed to preview): drag the `dist`
+**Netlify Drop** (fastest, no account needed to preview): drag the `docs`
 folder onto <https://app.netlify.com/drop>. You get a live URL immediately.
 
-**GitHub Pages**: push this repo, then Settings → Pages → Source: *Deploy from
-a branch*, branch `main`, folder `/dist`. The site appears at
+**GitHub Pages**: Settings → Pages → Source: *Deploy from a branch*, branch
+`main`, folder `/docs`. (Pages only serves the repo root or `/docs`, which is
+why the build output is named `docs/` rather than `dist/` — it is the site,
+not documentation.) The site appears at
 `https://<username>.github.io/<repo>/` within a minute or two. Naming the repo
 `<username>.github.io` instead serves it at the root domain.
 
 **Vercel / Cloudflare Pages**: point either at the repo with no build command
-and `dist` as the output directory.
+and `docs` as the output directory.
 
 A custom domain is a CNAME at whichever host you pick; GitHub Pages also wants
-a `CNAME` file in `dist/` containing the bare domain.
+a `CNAME` file in `docs/` containing the bare domain.
 
 ### Two homepage builds
 
 `build.js` writes the homepage twice from the same source:
 
-- `dist/index.html` — a complete document with doctype, charset, viewport and
+- `docs/index.html` — a complete document with doctype, charset, viewport and
   Open Graph meta. **This is the one you host.**
 - `.artifact/index.html` — the same page as a bare fragment, for the Claude
   artifact host, which supplies its own wrapper. Git-ignored; never deploy it.
 
-The case study pages under `dist/work/` are complete documents in both cases.
+The case study pages under `docs/work/` are complete documents in both cases.

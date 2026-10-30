@@ -500,7 +500,9 @@ ${JS}
 
 /* ---------------- run ---------------- */
 
-const dist = path.join(__dirname, "dist");
+/* GitHub Pages can only serve the repo root or /docs, so the build output
+   lives in docs/. It is the deployable site, not documentation. */
+const dist = path.join(__dirname, "docs");
 fs.rmSync(dist, { recursive: true, force: true });
 fs.mkdirSync(path.join(dist, "work"), { recursive: true });
 fs.mkdirSync(path.join(dist, "assets"), { recursive: true });
