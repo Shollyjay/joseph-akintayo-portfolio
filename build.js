@@ -5,7 +5,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const { site, hero, proof, leaks, services, process: steps, stack, certs, about, gallery, work, notes, notesIntro, palettes, activePalette } = require("./content");
+const { site, hero, proof, leaks, services, process: steps, stack, certs, about, gallery, work, notes, notesIntro, contact, palettes, activePalette } = require("./content");
 const { schematics } = require("./src/schematics");
 const { icons } = require("./src/icons");
 const ico = (k) => icons[k] || "";
@@ -373,30 +373,64 @@ ${gallerySection}
   </section>
 
   <!-- contact -->
-  <section class="sect" id="contact">
+  <section class="sect contact" id="contact">
     <div class="wrap row">
       <div class="card contact-card reveal" style="grid-column:span 7">
         <div class="eye">Next step</div>
         <h2>Send me what is running now. I will send back an audit.</h2>
         <p class="lede">The GoHighLevel account, the landing page, the ads, or all three. You get back where the journey leaks and a roadmap of what to fix first, in order — before anything is agreed.</p>
         <div class="links">
-          <a class="btn btn-primary" href="${site.upwork}" target="_blank" rel="noopener">Hire me on Upwork ${ARROW}</a>
-          <a class="btn btn-ghost" href="${site.video}" target="_blank" rel="noopener">Watch the intro ${ARROW}</a>
+          <a class="btn btn-primary" href="${contact.bookingUrl}" target="_blank" rel="noopener">${ico("calendar")} ${contact.bookingLabel} ${ARROW}</a>
+          <a class="btn btn-ghost" href="${contact.resume}" download target="_blank" rel="noopener">${ico("download")} Résumé</a>
+          <a class="btn btn-ghost" href="${site.upwork}" target="_blank" rel="noopener">Upwork ${ARROW}</a>
+        </div>
+        <dl class="facts" style="margin-top:4px">
+          <div class="fact"><dt class="eye-row">${ico("calendar")}<span>Call</span></dt><dd>${contact.bookingNote}</dd></div>
+          <div class="fact"><dt class="eye-row">${ico("download")}<span>Résumé</span></dt><dd>${contact.resumeNote}</dd></div>
+          <div class="fact"><dt class="eye-row">${ico("clock")}<span>Hours</span></dt><dd>${site.tz}</dd></div>
+        </dl>
+        <div class="copybox" style="margin-top:6px">
+          <div class="copyrow">
+            <div><div class="k eye-row">${ico("mail")}<span>Email</span></div><div class="v">${site.email}</div></div>
+            <button type="button" data-copy="${site.email}">Copy</button>
+          </div>
+          <div class="copyrow">
+            <div><div class="k eye-row">${ico("phone")}<span>Phone / WhatsApp</span></div><div class="v">${site.phone}</div></div>
+            <button type="button" data-copy="${site.phone}">Copy</button>
+          </div>
         </div>
       </div>
+
       <div class="card reveal" style="grid-column:span 5">
-        <div class="eye">Stay in touch</div>
-        <div class="copyrow">
-          <div><div class="k">Email</div><div class="v">${site.email}</div></div>
-          <button type="button" data-copy="${site.email}">Copy</button>
-        </div>
-        <div class="copyrow">
-          <div><div class="k">Phone / WhatsApp</div><div class="v">${site.phone}</div></div>
-          <button type="button" data-copy="${site.phone}">Copy</button>
-        </div>
-        <div class="copyrow">
-          <div><div class="k">Hours</div><div class="v" style="font-weight:400;color:var(--fg-2)">${site.tz}</div></div>
-        </div>
+        <span class="ico-tile">${ico("send")}</span>
+        <div class="eye">${contact.form.eyebrow}</div>
+        <h3>${contact.form.title}</h3>
+        <p class="muted" style="font-size:var(--t-sm)">${contact.form.note}</p>
+        <form id="contactForm" class="form" novalidate
+              data-endpoint="${contact.formEndpoint}"
+              data-to="${site.email}"
+              data-ok="${contact.form.ok}"
+              data-failed="${contact.form.failed}"
+              data-sending="${contact.form.sending}"
+              data-submit="${contact.form.submit}">
+          ${contact.form.fields
+            .map((f) =>
+              f.type === "textarea"
+                ? `<label class="field">
+            <span class="field-label">${f.label}${f.required ? ' <i aria-hidden="true">*</i>' : ""}</span>
+            <textarea id="f-${f.id}" name="${f.id}" rows="4" ${f.required ? "required" : ""} placeholder="${f.placeholder || ""}"></textarea>
+            <span class="field-err" hidden></span>
+          </label>`
+                : `<label class="field">
+            <span class="field-label">${f.label}${f.required ? ' <i aria-hidden="true">*</i>' : ""}</span>
+            <input id="f-${f.id}" name="${f.id}" type="${f.type}" ${f.autocomplete ? `autocomplete="${f.autocomplete}"` : ""} ${f.required ? "required" : ""} placeholder="${f.placeholder || ""}">
+            <span class="field-err" hidden></span>
+          </label>`
+            )
+            .join("\n          ")}
+          <button class="btn btn-primary" type="submit">${ico("send")} ${contact.form.submit}</button>
+          <p class="form-status" role="status" aria-live="polite" hidden></p>
+        </form>
       </div>
     </div>
   </section>

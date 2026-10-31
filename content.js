@@ -36,7 +36,7 @@ const hero = {
 
 const proof = [
   { value: "40", suffix: "+", icon: "stack", label: "GoHighLevel systems built", note: "solo, no subcontractors" },
-  { value: "57", suffix: "", icon: "contract", label: "Upwork contracts", note: "48 fixed-price, 9 hourly" },
+  { value: "51", suffix: "+", icon: "contract", label: "Upwork jobs completed", note: "4.9 average from 35 reviews" },
   { value: "6", suffix: "", icon: "badge", label: "Certifications", note: "GoHighLevel & HubSpot" },
   { value: "35", suffix: "", icon: "star", label: "Client reviews", note: "Top Rated on Upwork" },
 ];
@@ -211,6 +211,42 @@ const about = {
     figure: "40%",
     body:
       "A fitness coaching client was losing bookings to no-shows and slow follow-up. I rebuilt the booking flow in GoHighLevel, added automated reminders, and built a lead-response workflow triggering within minutes of opt-in. No-shows dropped 40% in the first month.",
+  },
+};
+
+/* ---------- contact: booking, form, resume ----------
+   bookingUrl and formEndpoint are the two values to fill in. Both have a
+   working fallback so the page is never dead while they are empty. */
+
+const contact = {
+  // Swap for a GoHighLevel calendar or Calendly link when you have one.
+  // Joseph's Upwork profile offers a paid 30-min consultation. Replace with a
+  // GoHighLevel calendar or Calendly link to take bookings direct.
+  bookingUrl: site.upwork,
+  bookingLabel: "Book a consultation",
+  bookingNote: "30 min · via Upwork",
+
+  // Paste a Formspree or Web3Forms endpoint here and the form POSTs for real.
+  // Left empty, the form opens a pre-filled email instead — see src/site.js.
+  formEndpoint: "",
+
+  resume: "assets/files/joseph-akintayo-resume.pdf",
+  resumeNote: "PDF · 2 pages",
+
+  form: {
+    eyebrow: "Send a message",
+    title: "Tell me what is running now",
+    note: "The more specific, the more useful the audit. A link to the account, the page or the ads beats a description of them.",
+    fields: [
+      { id: "name", label: "Your name", type: "text", required: true, autocomplete: "name", placeholder: "" },
+      { id: "email", label: "Email", type: "email", required: true, autocomplete: "email", placeholder: "" },
+      { id: "links", label: "Links to what you have running", type: "text", required: false, placeholder: "GHL account, landing page, ads — optional" },
+      { id: "message", label: "What is not working", type: "textarea", required: true, placeholder: "" },
+    ],
+    submit: "Send",
+    sending: "Sending…",
+    ok: "Sent. I reply same day, US and UK hours.",
+    failed: "That did not send. Email me directly instead — the address is above.",
   },
 };
 
@@ -946,4 +982,4 @@ const work = [
   },
 ];
 
-module.exports = { site, hero, proof, leaks, services, process, stack, certs, about, gallery, work, notes, notesIntro, palettes, activePalette };
+module.exports = { site, hero, proof, leaks, services, process, stack, certs, about, gallery, work, notes, notesIntro, contact, palettes, activePalette };

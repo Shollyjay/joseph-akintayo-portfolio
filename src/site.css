@@ -775,3 +775,65 @@ a.card:hover .ico-tile {
 .step-head .n { margin: 0; }
 
 @media (max-width: 560px) { .ico-tile { width: 34px; height: 34px; border-radius: 10px; } }
+
+/* ---------- contact form ----------
+   Class names here match the markup in build.js: a <label class="field">
+   wrapping .field-label, the control, and a .field-err slot. */
+
+.form { display: grid; gap: 14px; margin-top: 4px; }
+
+.field { display: grid; gap: 6px; min-width: 0; }
+.field-label {
+  font-size: var(--t-eye);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.field-label i { color: var(--accent-text); font-style: normal; }
+
+.field input,
+.field textarea {
+  font-family: inherit;
+  font-size: var(--t-sm);
+  color: var(--fg);
+  background: var(--card-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 11px 13px;
+  width: 100%;
+  min-width: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color .25s, background .25s;
+}
+.field textarea { resize: vertical; min-height: 96px; line-height: 1.5; }
+.field input::placeholder,
+.field textarea::placeholder { color: var(--fg-3); }
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--accent-text);
+  background: var(--card);
+}
+.field input[aria-invalid="true"],
+.field textarea[aria-invalid="true"] { border-color: var(--bad); }
+.field-err { font-size: var(--t-xs); color: var(--bad); }
+
+.form .btn { justify-content: center; width: 100%; }
+
+.form-status {
+  font-size: var(--t-sm);
+  line-height: 1.5;
+  color: var(--fg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 11px 13px;
+  margin: 0;
+}
+.form-status.is-ok   { color: var(--ok);   border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.form-status.is-bad  { color: var(--bad);  border-color: color-mix(in srgb, var(--bad) 45%, var(--line)); }
+.form-status.is-warn { color: var(--fg-2); border-color: var(--line-2); }
+
+/* the three buttons in the contact card wrap rather than squeeze */
+.contact-card .links .btn { flex: 0 1 auto; }
+.contact-card .links .btn .ico { width: 15px; height: 15px; }

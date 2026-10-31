@@ -13,7 +13,7 @@ src/site.css        all styling (design tokens live at the top)
 src/site.js         theme toggle, scroll reveals, hero pipeline animation
 src/icons.js        the line-icon set (inline SVG, 24px grid)
 src/schematics.js   the eight case-study diagrams (inline SVG)
-assets/             the two portraits
+assets/             the two portraits, work screenshots and the CV PDF
 build.js            assembles docs/
 docs/               the finished site — this is what you deploy
 ```
@@ -85,6 +85,30 @@ they carry "Logoipsum" placeholder logos, "John Doe / Jane Doe" testimonials
 and lorem ipsum body copy, with a "N PAGES" badge in the corner. The gallery
 copy says so plainly and sells the structure rather than claiming client
 deployments. Don't change that line to imply these are live client sites.
+
+### Contact form, booking and CV
+
+All three are configured in one `contact` object in `content.js`.
+
+**The form posts nowhere until you give it somewhere to post.** `formEndpoint`
+is empty by default, and the form is still useful in that state: it validates,
+then opens a pre-filled email to you and leaves the typed text on screen so
+nothing is lost if the mail client does not open. Paste a Formspree or
+Web3Forms endpoint into `formEndpoint` and the same form POSTs for real, with
+no page reload and a success message in place of the button.
+
+Validation is client-side and deliberately plain — required fields and a
+sanity check on the email format. There is also an off-screen honeypot-style
+guard; a static site with a third-party endpoint will still attract some spam,
+so use whatever filtering your form service offers.
+
+**`bookingUrl`** currently points at the Upwork profile, which offers a paid
+30-minute consultation. Swap it for a GoHighLevel calendar or Calendly link to
+take bookings direct and keep people off a marketplace page.
+
+**The CV** lives at `assets/files/` and is linked with both `download` and
+`target="_blank"`, so it downloads on a real host and still opens in a new tab
+anywhere downloads are blocked (the Claude artifact preview, for instance).
 
 ### Icons
 

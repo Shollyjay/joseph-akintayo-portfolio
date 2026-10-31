@@ -36,7 +36,17 @@ const icons = {
   sms: I('<path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-5 4V6a1 1 0 0 1 1-1z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/>'),
   card: I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M6.5 14.5h3"/>'),
   gauge: I('<path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-4.5"/><circle cx="12" cy="17" r="1.2"/>'),
+  calendar: I('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M8.5 14h3M8.5 17.5h7"/>'),
+  download: I('<path d="M12 3v12"/><path d="M8 11.5l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>'),
+  send: I('<path d="M21 3L10.5 13.5"/><path d="M21 3l-6.8 18-3.7-7.5L3 9.8z"/>'),
   shield: I('<path d="M12 3l7.5 3v5.4c0 4.3-3 8-7.5 9.6C7.5 19.4 4.5 15.7 4.5 11.4V6z"/><path d="M12 8.5v4M12 15.4v.01"/>'),
+  /* contact */
+  calendar: I('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M8.5 14.5h3"/>'),
+  download: I('<path d="M12 3v11"/><path d="M8.5 11L12 14.5 15.5 11"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>'),
+  send: I('<path d="M21 3L10.5 13.5"/><path d="M21 3l-6.8 18-3.7-7.5L3 9.8z"/>'),
+  mail: I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6 8.5-6"/>'),
+  phone: I('<path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 6.1 6.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2z"/>'),
+  clock: I('<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3 1.8"/>'),
 };
 
 module.exports = { icons };

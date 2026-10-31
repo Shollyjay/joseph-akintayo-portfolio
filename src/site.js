@@ -230,3 +230,108 @@
     });
   }
 })();
+
+/* ---------- contact form ----------
+   With a POST endpoint configured it submits for real. Without one it falls
+   back to opening a pre-filled email, so the form is never a dead end. Either
+   way the submit is intercepted — this page is static and has no backend. */
+
+(function () {
+  "use strict";
+  var form = document.getElementById("contactForm");
+  if (!form) return;
+
+  var status = form.querySelector(".form-status");
+  var button = form.querySelector('button[type="submit"]');
+  var endpoint = (form.getAttribute("data-endpoint") || "").trim();
+  var to = form.getAttribute("data-to") || "";
+
+  function setError(field, message) {
+    var slot = field.parentElement.querySelector(".field-err");
+    field.setAttribute("aria-invalid", message ? "true" : "false");
+    if (!slot) return;
+    if (message) { slot.textContent = message; slot.hidden = false; }
+    else { slot.textContent = ""; slot.hidden = true; }
+  }
+
+  function validate() {
+    var ok = true;
+    var first = null;
+    Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (el) {
+      var v = (el.value || "").trim();
+      var msg = "";
+      if (el.hasAttribute("required") && !v) msg = "This one is needed.";
+      else if (el.type === "email" && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) msg = "That address looks incomplete.";
+      setError(el, msg);
+      if (msg) { ok = false; if (!first) first = el; }
+    });
+    if (first) first.focus();
+    return ok;
+  }
+
+  function say(text, kind) {
+    if (!status) return;
+    status.textContent = text;
+    status.className = "form-status" + (kind ? " is-" + kind : "");
+    status.hidden = false;
+  }
+
+  function values() {
+    var out = {};
+    Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (el) {
+      out[el.name] = (el.value || "").trim();
+    });
+    return out;
+  }
+
+  /* no endpoint yet: hand the message to the visitor's mail client, and keep
+     the text on screen so nothing is lost if that does not open */
+  function mailFallback(v) {
+    var subject = "Site enquiry — " + (v.name || "no name");
+    var body =
+      "Name: " + (v.name || "") + "\n" +
+      "Email: " + (v.email || "") + "\n" +
+      "Links: " + (v.links || "—") + "\n\n" +
+      (v.message || "");
+    var href = "mailto:" + to + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    try { window.location.href = href; } catch (e) {}
+    say("Your email app should be opening. If it does not, copy the address above and paste this message in — nothing here is lost.", "warn");
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!validate()) return;
+    var v = values();
+
+    if (!endpoint) { mailFallback(v); return; }
+
+    var original = button.innerHTML;
+    button.disabled = true;
+    button.textContent = form.getAttribute("data-sending") || "Sending…";
+    say("", "");
+    if (status) status.hidden = true;
+
+    fetch(endpoint, {
+      method: "POST",
+      headers: { "Accept": "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify(v)
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("bad status " + r.status);
+        form.reset();
+        say(form.getAttribute("data-ok") || "Sent.", "ok");
+      })
+      .catch(function () {
+        say(form.getAttribute("data-failed") || "That did not send.", "bad");
+      })
+      .then(function () {
+        button.disabled = false;
+        button.innerHTML = original;
+      });
+  });
+
+  /* clear a field's error as soon as the visitor starts fixing it */
+  Array.prototype.forEach.call(form.querySelectorAll("input, textarea"), function (el) {
+    el.addEventListener("input", function () { setError(el, ""); });
+  });
+})();
