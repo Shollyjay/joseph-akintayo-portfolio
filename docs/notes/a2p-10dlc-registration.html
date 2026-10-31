@@ -749,6 +749,48 @@ a.card:hover .shot-thumb img { transform: scale(1.03); }
 @media (max-width: 860px) { .gal { grid-column: span 3 !important; } }
 .gal-frame { aspect-ratio: 16 / 11; }
 
+/* ---------- icons ----------
+   A hairline-bordered tile holding a line icon, so an icon reads as part of
+   the same card system rather than something dropped on top of it. */
+
+.ico { width: 18px; height: 18px; display: block; }
+
+.ico-tile {
+  width: 38px; height: 38px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: var(--card-3);
+  color: var(--accent-text);
+  display: grid; place-items: center;
+  flex: none;
+  transition: border-color .35s, background .35s, color .35s;
+}
+.card:hover > .ico-tile,
+a.card:hover .ico-tile {
+  border-color: color-mix(in srgb, var(--accent-text) 40%, var(--line));
+  background: var(--accent-dim);
+}
+
+/* the eyebrow row: small icon, then the label, on one line */
+.eye-row { display: flex; align-items: center; gap: 9px; }
+.eye-row .ico { width: 14px; height: 14px; color: var(--accent-text); }
+
+/* stat cards: icon sits top-right, quiet until hover */
+.stat { position: relative; }
+.stat .ico {
+  position: absolute; top: var(--pad); right: var(--pad);
+  width: 16px; height: 16px;
+  color: var(--fg-3);
+  transition: color .35s;
+}
+.stat:hover .ico { color: var(--accent-text); }
+
+/* process number and icon together */
+.step-head { display: flex; align-items: center; gap: 12px; }
+.step-head .n { margin: 0; }
+
+@media (max-width: 560px) { .ico-tile { width: 34px; height: 34px; border-radius: 10px; } }
+
 /* accent palette: blue */
 :root{--accent:#1F5FD0;--accent-2:#1A47A8;--accent-text:#72A6FF;--accent-ink:#FFFFFF;--accent-dim:rgba(77,141,247,.15);}
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--accent:#1B5FD9;--accent-2:#0F3F9C;--accent-text:#14529E;--accent-ink:#FFFFFF;--accent-dim:rgba(27,95,217,.10);}}
@@ -784,7 +826,7 @@ a.card:hover .shot-thumb img { transform: scale(1.03); }
     <div class="wrap row">
       <div class="card cs-hero" style="grid-column:span 8">
         <a class="back" href="../index.html#notes"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M11 7H3M6 3L2 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> All notes</a>
-        <div class="eye">Field note</div>
+        <div class="eye eye-row"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-5 4V6a1 1 0 0 1 1-1z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/></svg><span>Field note</span></div>
         <h1>A2P 10DLC: the registration that decides whether your SMS arrives at all</h1>
         <p class="lede">US carriers do not deliver application-to-person SMS from unregistered brands. Registration is paperwork with a technical failure mode, and it is the single most common reason a GoHighLevel SMS build goes quiet after launch.</p>
       </div>

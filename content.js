@@ -35,10 +35,10 @@ const hero = {
 /* ---------- proof ---------- */
 
 const proof = [
-  { value: "40", suffix: "+", label: "GoHighLevel systems built", note: "solo, no subcontractors" },
-  { value: "57", suffix: "", label: "Upwork contracts", note: "48 fixed-price, 9 hourly" },
-  { value: "6", suffix: "", label: "Certifications", note: "GoHighLevel & HubSpot" },
-  { value: "35", suffix: "", label: "Client reviews", note: "Top Rated on Upwork" },
+  { value: "40", suffix: "+", icon: "stack", label: "GoHighLevel systems built", note: "solo, no subcontractors" },
+  { value: "57", suffix: "", icon: "contract", label: "Upwork contracts", note: "48 fixed-price, 9 hourly" },
+  { value: "6", suffix: "", icon: "badge", label: "Certifications", note: "GoHighLevel & HubSpot" },
+  { value: "35", suffix: "", icon: "star", label: "Client reviews", note: "Top Rated on Upwork" },
 ];
 
 /* ---------- the leak points ---------- */
@@ -50,24 +50,28 @@ const leaks = {
   items: [
     {
       stage: "Between click and page",
+      icon: "mismatch",
       title: "The page doesn’t match what the ad promised",
       body:
         "Traffic arrives warm and lands on a page written for a different offer. The bounce looks like a creative problem, so the ad gets blamed and replaced, and the page stays broken.",
     },
     {
       stage: "Between form and first contact",
+      icon: "stopwatch",
       title: "The lead sits unanswered for six hours",
       body:
         "Speed to lead is the single cheapest thing to fix and the most commonly broken. A workflow that fires within minutes, day or night, is a one-day build that changes the economics of the whole account.",
     },
     {
       stage: "Between booking and showing",
+      icon: "noshow",
       title: "The call gets booked and nobody shows",
       body:
         "No-show rate is a reminder problem far more often than it is a lead quality problem. Reminder sequencing, confirmation logic and a reschedule path recover most of it.",
     },
     {
       stage: "Between tools",
+      icon: "unknown",
       title: "Nobody knows how the account actually works",
       body:
         "An account set up by someone who has moved on, with workflows nobody will touch in case something breaks. Every build I hand over comes with training and documentation so you own it.",
@@ -80,6 +84,7 @@ const leaks = {
 const services = [
   {
     id: "ghl",
+    icon: "crm",
     num: "01",
     title: "GoHighLevel CRM & automation",
     lede:
@@ -97,6 +102,7 @@ const services = [
   },
   {
     id: "funnels",
+    icon: "funnel",
     num: "02",
     title: "Funnels & landing pages",
     lede:
@@ -111,6 +117,7 @@ const services = [
   },
   {
     id: "video",
+    icon: "film",
     num: "03",
     title: "AI video ad creative",
     lede:
@@ -130,30 +137,35 @@ const services = [
 const process = [
   {
     n: "01",
+    icon: "audit",
     title: "Audit",
     body:
       "I go through what is running now — the GHL account, the pages, the ads — and map where performance drops off. You get the audit and a roadmap of what to fix first, in order, before any money changes hands.",
   },
   {
     n: "02",
+    icon: "map",
     title: "Map the journey",
     body:
       "First scroll, to click, to opt-in, to booked call, to client. Written out as stages with entry conditions and exit criteria, so we are both looking at the same system instead of a list of tasks.",
   },
   {
     n: "03",
+    icon: "build",
     title: "Build",
     body:
       "Automation first, then the page, then the creative. That order is deliberate: creative pointed at a broken follow-up just spends money faster.",
   },
   {
     n: "04",
+    icon: "test",
     title: "Test end to end",
     body:
       "I run the full journey myself as if I were the lead. Fill the form, wait for the SMS, take the reminder, sit through the reschedule path. Logic tables are checked branch by branch.",
   },
   {
     n: "05",
+    icon: "handover",
     title: "Handover",
     body:
       "A walkthrough of everything built, documentation of the workflows, and I stay available afterwards. You own what gets built — there is no snapshot I can take back.",
@@ -259,7 +271,7 @@ const gallery = {
 
 const notesIntro = {
   eyebrow: "Field notes",
-  title: "Two things that quietly decide whether a system works",
+  title: "Four things that quietly decide whether a system works",
   lede:
     "Not client stories — method. These are the parts of a build that are invisible when done right and expensive when skipped, written up with a screenshot from a real account.",
 };
@@ -267,6 +279,7 @@ const notesIntro = {
 const notes = [
   {
     slug: "a2p-10dlc-registration",
+    icon: "sms",
     index: "N1",
     kind: "Field note",
     title: "A2P 10DLC: the registration that decides whether your SMS arrives at all",
@@ -316,6 +329,7 @@ const notes = [
 
   {
     slug: "payment-gateway-integration",
+    icon: "card",
     index: "N2",
     kind: "Field note",
     title: "Connecting a payment gateway is the easy half",
@@ -361,7 +375,109 @@ const notes = [
       },
     ],
   },
+
+  {
+    slug: "domain-reputation",
+    icon: "gauge",
+    index: "N3",
+    kind: "Field note",
+    title: "Domain reputation is earned over weeks and spent in an afternoon",
+    summary:
+      "Mailbox providers score your domain on how people react to your mail, not on how well it is written. The score moves slowly upward and quickly down, which decides how a sending domain has to be introduced.",
+    tags: ["Domain reputation", "Warmup", "Google Postmaster"],
+    shots: [
+      { file: "postmaster-reputation.jpg", alt: "Google Postmaster Tools domain reputation chart climbing from low to high",
+        caption: "Google Postmaster Tools, one domain over two months: Low, a dip, then High. The shape is what a warmup looks like when it is working — gradual, with setbacks." },
+      { file: "spam-score.jpg", alt: "A mail testing tool showing a 10 out of 10 sender score",
+        caption: "A pre-send check scoring 10/10 with SpamAssassin passing. This tests the message and the setup, not your reputation — both have to be right." },
+      { file: "inbox-health.jpg", alt: "An inbox monitoring row showing 100% deliverability and not blacklisted",
+        caption: "Per-inbox monitoring during a ramp: deliverability, daily send and receive counts, blacklist status. The address is blurred." },
+      { file: "campaign-rates.jpg", alt: "A campaign dashboard showing 99.54% delivery rate and 79.90% opening rate",
+        caption: "What a healthy sending domain looks like downstream: 3,054 sent, 3,040 delivered. The open rate is the audience's doing, not the infrastructure's." },
+    ],
+    sections: [
+      {
+        h: "What is actually being scored",
+        p: [
+          "Gmail, Outlook and the rest keep a reputation for your sending domain and for the IPs behind it. The inputs are behavioural: how often recipients open, reply, delete without reading, or hit the spam button, and how much of your volume hits addresses that no longer exist.",
+          "None of that is about your copy in the way people assume. A beautifully written email to a stale list from a cold domain performs worse than a plain one to an engaged list from a warm domain. The infrastructure sets the ceiling; the content moves you around underneath it.",
+        ],
+      },
+      {
+        h: "Why the curve is asymmetric",
+        p: [
+          "Reputation climbs slowly because providers want sustained evidence before they trust you. It falls fast because the cost of being wrong about a spammer is much higher for them than the cost of being wrong about you.",
+          "That asymmetry is the whole argument for warming a domain rather than launching into it. A new domain sending at full volume on day one looks exactly like a domain bought that morning to send spam — which is, in fairness, a common thing for a domain bought that morning to be doing.",
+        ],
+      },
+      {
+        h: "What a warmup actually involves",
+        list: [
+          ["Start small and climb on a schedule", "A few messages a day per inbox, increased on a ramp over a couple of weeks. The number matters less than the fact that the curve is smooth."],
+          ["Send to people who will engage first", "Early volume should go to your most responsive contacts. Opens and replies are positive signals, and you want them weighted heavily while the sample is small."],
+          ["Watch Postmaster rather than guessing", "Google Postmaster Tools shows domain and IP reputation, spam rate and authentication results for Gmail traffic specifically. It is free, it is the clearest signal available, and it requires a DNS record to enable — so set it up before you need it."],
+          ["Keep the list clean as you go", "Bounces and spam traps do disproportionate damage during a ramp. Remove hard bounces immediately rather than at the end of the campaign."],
+        ],
+      },
+      {
+        h: "What the numbers mean and do not mean",
+        p: [
+          "A delivery rate near 99.5% means mail was accepted by the receiving server. It does not mean it reached an inbox rather than a spam folder — that distinction is invisible in most sending dashboards and is what seed-list testing exists to measure.",
+          "A 10/10 pre-send score is the same kind of claim: it says the message and the configuration are not obviously spam-like. It says nothing about how your domain is regarded. Both checks are necessary and neither is sufficient, which is why the ones worth running sit at different points in the chain.",
+        ],
+      },
+    ],
+  },
+
+  {
+    slug: "when-mail-stops-arriving",
+    icon: "shield",
+    index: "N4",
+    kind: "Field note",
+    title: "When mail stops arriving, three records explain most of it",
+    summary:
+      "SPF, DKIM and DMARC decide whether a receiving server believes you are who you claim to be. Reading the verdicts on a delivered message is the fastest diagnostic there is, and most blocked-sender problems resolve into one of them.",
+    tags: ["SPF / DKIM / DMARC", "Diagnostics", "Microsoft 365"],
+    shots: [
+      { file: "auth-pass.jpg", alt: "Gmail original message view showing SPF, DKIM and DMARC all passing",
+        caption: "Gmail's Show Original on a delivered message: SPF pass with the sending IP, DKIM pass with the signing domain, DMARC pass. Sender, recipient and message ID are blurred; every verdict is intact." },
+      { file: "o365-unrestricted.jpg", alt: "Microsoft 365 restricted entities list showing no data available",
+        caption: "Microsoft 365's restricted entities list, empty. An account that has tripped outbound limits appears here and silently cannot send until it is cleared." },
+    ],
+    sections: [
+      {
+        h: "The three records, briefly",
+        list: [
+          ["SPF", "A DNS record listing which servers may send for your domain. The receiver checks the connecting IP against it. It breaks most often from the ten-lookup limit — every `include:` costs a lookup, and a domain using several providers quietly exceeds it and starts failing."],
+          ["DKIM", "A cryptographic signature on the message, verified against a public key in your DNS. It proves the message was not altered and genuinely came from the signing domain. It breaks when a provider rotates keys or when mail is forwarded through something that rewrites the body."],
+          ["DMARC", "A policy saying what to do when SPF and DKIM disagree with the visible From address, plus where to send reports. It is the one most often published as `p=none` and then never revisited, which gives you reporting and no protection."],
+        ],
+      },
+      {
+        h: "Read the verdict rather than guessing",
+        p: [
+          "The fastest diagnostic available costs nothing: send a message to a Gmail address you control, open it, and use Show Original. You get SPF, DKIM and DMARC verdicts for that exact message, the IP that delivered it, and the domain that signed it.",
+          "That single view resolves most arguments. If all three pass and mail is still going to spam, the problem is reputation or content, not authentication — which changes the whole direction of the work. Checking it first saves days of fixing records that were never broken.",
+        ],
+      },
+      {
+        h: "The failure nobody expects",
+        p: [
+          "Microsoft 365 will restrict an account that trips its outbound limits — too much volume too fast, or a spike that resembles a compromised mailbox. The account carries on looking normal. Mail simply stops leaving, and the user is often the last to know.",
+          "It surfaces in the restricted entities list in the security portal, which is a page most people have never opened. An empty list, as above, is the healthy state. If an account is listed, no amount of DNS work will help until it is released and the cause is addressed.",
+        ],
+      },
+      {
+        h: "The order I work in",
+        p: [
+          "Authentication first, because it is binary and quick to verify. Then sender restrictions and blacklists, because they are also binary and invisible from the sending side. Only then reputation and content, which are gradual and take real time to shift.",
+          "Working the other way round — rewriting copy while a DKIM key is broken — is how weeks get spent on a problem that a DNS record would have fixed in an hour.",
+        ],
+      },
+    ],
+  },
 ];
+
 
 /* ============================================================
    CASE STUDIES

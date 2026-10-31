@@ -7,6 +7,8 @@ const fs = require("fs");
 const path = require("path");
 const { site, hero, proof, leaks, services, process: steps, stack, certs, about, gallery, work, notes, notesIntro, palettes, activePalette } = require("./content");
 const { schematics } = require("./src/schematics");
+const { icons } = require("./src/icons");
+const ico = (k) => icons[k] || "";
 
 /* A shot only renders if its file is really in assets/work/. That way the
    page never shows a broken image while screenshots are still being added. */
@@ -101,6 +103,7 @@ function buildIndex() {
   const stats = proof
     .map(
       (s, i) => `<div class="card stat reveal" style="grid-column:span 3">
+          ${ico(s.icon)}
           <div class="v"><span data-count="${s.value}">0</span>${s.suffix ? `<span>${s.suffix}</span>` : ""}</div>
           <div class="l">${s.label}</div>
           <div class="n">${s.note}</div>
@@ -111,7 +114,7 @@ function buildIndex() {
   const leakCards = leaks.items
     .map(
       (l) => `<article class="card leak reveal" style="grid-column:span 6">
-          <div class="eye st">${l.stage}</div>
+          <div class="eye st eye-row">${ico(l.icon)}<span>${l.stage}</span></div>
           <h3>${l.title}</h3>
           <p>${l.body}</p>
         </article>`
@@ -121,6 +124,7 @@ function buildIndex() {
   const svcCards = services
     .map(
       (s) => `<article class="card svc reveal" id="svc-${s.id}" style="grid-column:span 4">
+          <span class="ico-tile">${ico(s.icon)}</span>
           <div class="eye">${s.num} · Service</div>
           <h3>${s.title}</h3>
           <p class="lede">${s.lede}</p>
@@ -156,7 +160,7 @@ function buildIndex() {
   const stepCards = steps
     .map(
       (s, i) => `<article class="card step reveal" style="grid-column:span ${i < 2 ? 6 : 4}">
-          <div class="eye n">Step ${s.n}</div>
+          <div class="step-head"><span class="ico-tile">${ico(s.icon)}</span><div class="eye n">Step ${s.n}</div></div>
           <h3>${s.title}</h3>
           <p>${s.body}</p>
         </article>`
@@ -315,7 +319,7 @@ ${gallerySection}
           .map(
             (n) => `<a class="card work-card reveal" href="notes/${n.slug}.html" style="grid-column:span 6">
           <div class="w-top">
-            <span class="w-i">${n.kind}</span>
+            <span class="w-i eye-row">${ico(n.icon)}<span>${n.kind}</span></span>
             ${GO}
           </div>
           <h3>${n.title}</h3>
@@ -574,7 +578,7 @@ ${nav("../index.html")}
     <div class="wrap row">
       <div class="card cs-hero" style="grid-column:span 8">
         <a class="back" href="../index.html#notes">${BACKARR} All notes</a>
-        <div class="eye">${n.kind}</div>
+        <div class="eye eye-row">${ico(n.icon)}<span>${n.kind}</span></div>
         <h1>${n.title}</h1>
         <p class="lede">${n.summary}</p>
       </div>

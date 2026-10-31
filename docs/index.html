@@ -756,6 +756,48 @@ a.card:hover .shot-thumb img { transform: scale(1.03); }
 @media (max-width: 860px) { .gal { grid-column: span 3 !important; } }
 .gal-frame { aspect-ratio: 16 / 11; }
 
+/* ---------- icons ----------
+   A hairline-bordered tile holding a line icon, so an icon reads as part of
+   the same card system rather than something dropped on top of it. */
+
+.ico { width: 18px; height: 18px; display: block; }
+
+.ico-tile {
+  width: 38px; height: 38px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: var(--card-3);
+  color: var(--accent-text);
+  display: grid; place-items: center;
+  flex: none;
+  transition: border-color .35s, background .35s, color .35s;
+}
+.card:hover > .ico-tile,
+a.card:hover .ico-tile {
+  border-color: color-mix(in srgb, var(--accent-text) 40%, var(--line));
+  background: var(--accent-dim);
+}
+
+/* the eyebrow row: small icon, then the label, on one line */
+.eye-row { display: flex; align-items: center; gap: 9px; }
+.eye-row .ico { width: 14px; height: 14px; color: var(--accent-text); }
+
+/* stat cards: icon sits top-right, quiet until hover */
+.stat { position: relative; }
+.stat .ico {
+  position: absolute; top: var(--pad); right: var(--pad);
+  width: 16px; height: 16px;
+  color: var(--fg-3);
+  transition: color .35s;
+}
+.stat:hover .ico { color: var(--accent-text); }
+
+/* process number and icon together */
+.step-head { display: flex; align-items: center; gap: 12px; }
+.step-head .n { margin: 0; }
+
+@media (max-width: 560px) { .ico-tile { width: 34px; height: 34px; border-radius: 10px; } }
+
 /* accent palette: blue */
 :root{--accent:#1F5FD0;--accent-2:#1A47A8;--accent-text:#72A6FF;--accent-ink:#FFFFFF;--accent-dim:rgba(77,141,247,.15);}
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--accent:#1B5FD9;--accent-2:#0F3F9C;--accent-text:#14529E;--accent-ink:#FFFFFF;--accent-dim:rgba(27,95,217,.10);}}
@@ -817,21 +859,25 @@ a.card:hover .shot-thumb img { transform: scale(1.03); }
   <section class="sect" id="proof">
     <div class="wrap row">
       <div class="card stat reveal" style="grid-column:span 3">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5M3 16.5L12 21l9-4.5"/></svg>
           <div class="v"><span data-count="40">0</span><span>+</span></div>
           <div class="l">GoHighLevel systems built</div>
           <div class="n">solo, no subcontractors</div>
         </div>
         <div class="card stat reveal" style="grid-column:span 3">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4"/></svg>
           <div class="v"><span data-count="57">0</span></div>
           <div class="l">Upwork contracts</div>
           <div class="n">48 fixed-price, 9 hourly</div>
         </div>
         <div class="card stat reveal" style="grid-column:span 3">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9.5" r="5.5"/><path d="M9.6 12.1L8 21l4-2.2L16 21l-1.6-8.9"/></svg>
           <div class="v"><span data-count="6">0</span></div>
           <div class="l">Certifications</div>
           <div class="n">GoHighLevel & HubSpot</div>
         </div>
         <div class="card stat reveal" style="grid-column:span 3">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/></svg>
           <div class="v"><span data-count="35">0</span></div>
           <div class="l">Client reviews</div>
           <div class="n">Top Rated on Upwork</div>
@@ -893,22 +939,22 @@ a.card:hover .shot-thumb img { transform: scale(1.03); }
       </div>
       <div class="row">
         <article class="card leak reveal" style="grid-column:span 6">
-          <div class="eye st">Between click and page</div>
+          <div class="eye st eye-row"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 8h18"/><path d="M9.5 12.5l5 4M14.5 12.5l-5 4"/></svg><span>Between click and page</span></div>
           <h3>The page doesn’t match what the ad promised</h3>
           <p>Traffic arrives warm and lands on a page written for a different offer. The bounce looks like a creative problem, so the ad gets blamed and replaced, and the page stays broken.</p>
         </article>
         <article class="card leak reveal" style="grid-column:span 6">
-          <div class="eye st">Between form and first contact</div>
+          <div class="eye st eye-row"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="7"/><path d="M12 10v3.2l2 1.4M9.5 3h5M12 3v3"/></svg><span>Between form and first contact</span></div>
           <h3>The lead sits unanswered for six hours</h3>
           <p>Speed to lead is the single cheapest thing to fix and the most commonly broken. A workflow that fires within minutes, day or night, is a one-day build that changes the economics of the whole account.</p>
         </article>
         <article class="card leak reveal" style="grid-column:span 6">
-          <div class="eye st">Between booking and showing</div>
+          <div class="eye st eye-row"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M10 14.5l4 3.5M14 14.5l-4 3.5"/></svg><span>Between booking and showing</span></div>
           <h3>The call gets booked and nobody shows</h3>
           <p>No-show rate is a reminder problem far more often than it is a lead quality problem. Reminder sequencing, confirmation logic and a reschedule path recover most of it.</p>
         </article>
         <article class="card leak reveal" style="grid-column:span 6">
-          <div class="eye st">Between tools</div>
+          <div class="eye st eye-row"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.2 2.9c-.6.2-.8.7-.8 1.3v.4"/><path d="M12 17.2v.01"/></svg><span>Between tools</span></div>
           <h3>Nobody knows how the account actually works</h3>
           <p>An account set up by someone who has moved on, with workflows nobody will touch in case something breaks. Every build I hand over comes with training and documentation so you own it.</p>
         </article>
@@ -926,18 +972,21 @@ a.card:hover .shot-thumb img { transform: scale(1.03); }
       </div>
       <div class="row">
         <article class="card svc reveal" id="svc-ghl" style="grid-column:span 4">
+          <span class="ico-tile"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 6h5a2 2 0 0 1 2 2v2.2M7 18h5a2 2 0 0 0 2-2v-2.2"/></svg></span>
           <div class="eye">01 · Service</div>
           <h3>GoHighLevel CRM & automation</h3>
           <p class="lede">The engine room. Pipelines that match how you actually sell, and follow-up that runs whether or not anyone is at a desk.</p>
           <ul><li>Full CRM buildout and pipeline design around your real sales process</li><li>Lead response automation that fires within minutes, day or night</li><li>Reminder and confirmation sequences that cut no-shows</li><li>Email & SMS with deliverability configured properly (SPF, DKIM, DMARC)</li><li>A2P 10DLC registration and compliance, done right the first time</li><li>CRM migration into GHL, or white-label back to standard GHL</li><li>Zapier, Make, n8n, Stripe, Twilio, calendar and API integrations</li><li>AI voice agents answering missed calls and booking 24/7 (Vapi, Retell, GHL Voice AI)</li></ul>
         </article>
         <article class="card svc reveal" id="svc-funnels" style="grid-column:span 4">
+          <span class="ico-tile"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18l-6.5 7.6V20L9.5 17v-5.4z"/></svg></span>
           <div class="eye">02 · Service</div>
           <h3>Funnels & landing pages</h3>
           <p class="lede">The surface the traffic actually touches, built to match the creative that sent it there rather than fight it.</p>
           <ul><li>Landing pages built against the specific offer and creative driving them</li><li>Discovery call funnels that qualify before the lead reaches your calendar</li><li>Membership, course and checkout funnels</li><li>Full website builds inside GoHighLevel</li><li>SaaS Mode and white-label agency configuration</li></ul>
         </article>
         <article class="card svc reveal" id="svc-video" style="grid-column:span 4">
+          <span class="ico-tile"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M3 15h18M8 5v14M16 5v14"/></svg></span>
           <div class="eye">03 · Service</div>
           <h3>AI video ad creative</h3>
           <p class="lede">The top of the funnel. Multiple hooks and variations per concept, so there is something real to test instead of one finished video.</p>
@@ -1091,13 +1140,13 @@ a.card:hover .shot-thumb img { transform: scale(1.03); }
     <div class="wrap">
       <div class="sect-head reveal">
         <div class="eye">Field notes</div>
-        <h2>Two things that quietly decide whether a system works</h2>
+        <h2>Four things that quietly decide whether a system works</h2>
         <p>Not client stories — method. These are the parts of a build that are invisible when done right and expensive when skipped, written up with a screenshot from a real account.</p>
       </div>
       <div class="row">
         <a class="card work-card reveal" href="notes/a2p-10dlc-registration.html" style="grid-column:span 6">
           <div class="w-top">
-            <span class="w-i">Field note</span>
+            <span class="w-i eye-row"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-5 4V6a1 1 0 0 1 1-1z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/></svg><span>Field note</span></span>
             <svg class="w-go" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <h3>A2P 10DLC: the registration that decides whether your SMS arrives at all</h3>
@@ -1106,12 +1155,30 @@ a.card:hover .shot-thumb img { transform: scale(1.03); }
         </a>
         <a class="card work-card reveal" href="notes/payment-gateway-integration.html" style="grid-column:span 6">
           <div class="w-top">
-            <span class="w-i">Field note</span>
+            <span class="w-i eye-row"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M6.5 14.5h3"/></svg><span>Field note</span></span>
             <svg class="w-go" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <h3>Connecting a payment gateway is the easy half</h3>
           <p>GoHighLevel will take NMI, Authorize.net or Stripe. Choosing between them, and handling what happens after a payment succeeds or fails, is where the actual work sits.</p>
           <div class="tags"><span class="chip">Stripe</span><span class="chip">Payments</span><span class="chip">Integration</span></div>
+        </a>
+        <a class="card work-card reveal" href="notes/domain-reputation.html" style="grid-column:span 6">
+          <div class="w-top">
+            <span class="w-i eye-row"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-4.5"/><circle cx="12" cy="17" r="1.2"/></svg><span>Field note</span></span>
+            <svg class="w-go" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Domain reputation is earned over weeks and spent in an afternoon</h3>
+          <p>Mailbox providers score your domain on how people react to your mail, not on how well it is written. The score moves slowly upward and quickly down, which decides how a sending domain has to be introduced.</p>
+          <div class="tags"><span class="chip">Domain reputation</span><span class="chip">Warmup</span><span class="chip">Google Postmaster</span></div>
+        </a>
+        <a class="card work-card reveal" href="notes/when-mail-stops-arriving.html" style="grid-column:span 6">
+          <div class="w-top">
+            <span class="w-i eye-row"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.4c0 4.3-3 8-7.5 9.6C7.5 19.4 4.5 15.7 4.5 11.4V6z"/><path d="M12 8.5v4M12 15.4v.01"/></svg><span>Field note</span></span>
+            <svg class="w-go" width="18" height="18" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>When mail stops arriving, three records explain most of it</h3>
+          <p>SPF, DKIM and DMARC decide whether a receiving server believes you are who you claim to be. Reading the verdicts on a delivered message is the fastest diagnostic there is, and most blocked-sender problems resolve into one of them.</p>
+          <div class="tags"><span class="chip">SPF / DKIM / DMARC</span><span class="chip">Diagnostics</span><span class="chip">Microsoft 365</span></div>
         </a>
       </div>
     </div>
@@ -1127,27 +1194,27 @@ a.card:hover .shot-thumb img { transform: scale(1.03); }
       </div>
       <div class="row">
         <article class="card step reveal" style="grid-column:span 6">
-          <div class="eye n">Step 01</div>
+          <div class="step-head"><span class="ico-tile"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/><path d="M8 10.5h5M10.5 8v5"/></svg></span><div class="eye n">Step 01</div></div>
           <h3>Audit</h3>
           <p>I go through what is running now — the GHL account, the pages, the ads — and map where performance drops off. You get the audit and a roadmap of what to fix first, in order, before any money changes hands.</p>
         </article>
         <article class="card step reveal" style="grid-column:span 6">
-          <div class="eye n">Step 02</div>
+          <div class="step-head"><span class="ico-tile"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h11"/><circle cx="4" cy="7" r="1.6"/><circle cx="20" cy="19" r="1.6"/></svg></span><div class="eye n">Step 02</div></div>
           <h3>Map the journey</h3>
           <p>First scroll, to click, to opt-in, to booked call, to client. Written out as stages with entry conditions and exit criteria, so we are both looking at the same system instead of a list of tasks.</p>
         </article>
         <article class="card step reveal" style="grid-column:span 4">
-          <div class="eye n">Step 03</div>
+          <div class="step-head"><span class="ico-tile"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><rect x="4" y="12" width="5" height="5" rx="1"/><rect x="11" y="8" width="5" height="9" rx="1"/><rect x="18" y="4" width="3" height="13" rx="1"/></svg></span><div class="eye n">Step 03</div></div>
           <h3>Build</h3>
           <p>Automation first, then the page, then the creative. That order is deliberate: creative pointed at a broken follow-up just spends money faster.</p>
         </article>
         <article class="card step reveal" style="grid-column:span 4">
-          <div class="eye n">Step 04</div>
+          <div class="step-head"><span class="ico-tile"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.4c0 4.3-3 8-7.5 9.6C7.5 19.4 4.5 15.7 4.5 11.4V6z"/><path d="M9 11.8l2.2 2.2L15.2 10"/></svg></span><div class="eye n">Step 04</div></div>
           <h3>Test end to end</h3>
           <p>I run the full journey myself as if I were the lead. Fill the form, wait for the SMS, take the reminder, sit through the reschedule path. Logic tables are checked branch by branch.</p>
         </article>
         <article class="card step reveal" style="grid-column:span 4">
-          <div class="eye n">Step 05</div>
+          <div class="step-head"><span class="ico-tile"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5l4-3 5 3.5 5-3.5 4 3"/><path d="M3 11.5V18a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6.5"/><path d="M12 4v7M9.6 6.4L12 4l2.4 2.4"/></svg></span><div class="eye n">Step 05</div></div>
           <h3>Handover</h3>
           <p>A walkthrough of everything built, documentation of the workflows, and I stay available afterwards. You own what gets built — there is no snapshot I can take back.</p>
         </article>

@@ -749,6 +749,48 @@ a.card:hover .shot-thumb img { transform: scale(1.03); }
 @media (max-width: 860px) { .gal { grid-column: span 3 !important; } }
 .gal-frame { aspect-ratio: 16 / 11; }
 
+/* ---------- icons ----------
+   A hairline-bordered tile holding a line icon, so an icon reads as part of
+   the same card system rather than something dropped on top of it. */
+
+.ico { width: 18px; height: 18px; display: block; }
+
+.ico-tile {
+  width: 38px; height: 38px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: var(--card-3);
+  color: var(--accent-text);
+  display: grid; place-items: center;
+  flex: none;
+  transition: border-color .35s, background .35s, color .35s;
+}
+.card:hover > .ico-tile,
+a.card:hover .ico-tile {
+  border-color: color-mix(in srgb, var(--accent-text) 40%, var(--line));
+  background: var(--accent-dim);
+}
+
+/* the eyebrow row: small icon, then the label, on one line */
+.eye-row { display: flex; align-items: center; gap: 9px; }
+.eye-row .ico { width: 14px; height: 14px; color: var(--accent-text); }
+
+/* stat cards: icon sits top-right, quiet until hover */
+.stat { position: relative; }
+.stat .ico {
+  position: absolute; top: var(--pad); right: var(--pad);
+  width: 16px; height: 16px;
+  color: var(--fg-3);
+  transition: color .35s;
+}
+.stat:hover .ico { color: var(--accent-text); }
+
+/* process number and icon together */
+.step-head { display: flex; align-items: center; gap: 12px; }
+.step-head .n { margin: 0; }
+
+@media (max-width: 560px) { .ico-tile { width: 34px; height: 34px; border-radius: 10px; } }
+
 /* accent palette: blue */
 :root{--accent:#1F5FD0;--accent-2:#1A47A8;--accent-text:#72A6FF;--accent-ink:#FFFFFF;--accent-dim:rgba(77,141,247,.15);}
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--accent:#1B5FD9;--accent-2:#0F3F9C;--accent-text:#14529E;--accent-ink:#FFFFFF;--accent-dim:rgba(27,95,217,.10);}}

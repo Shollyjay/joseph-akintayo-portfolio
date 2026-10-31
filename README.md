@@ -11,6 +11,7 @@ only to stamp out the pages from one content file.
 content.js          every word on the site — edit this, not the HTML
 src/site.css        all styling (design tokens live at the top)
 src/site.js         theme toggle, scroll reveals, hero pipeline animation
+src/icons.js        the line-icon set (inline SVG, 24px grid)
 src/schematics.js   the eight case-study diagrams (inline SVG)
 assets/             the two portraits
 build.js            assembles docs/
@@ -27,7 +28,7 @@ That regenerates `docs/index.html` and `docs/work/*.html`.
 
 ## The screenshots
 
-17 images live in `assets/work/`, already optimised and redacted. They are
+25 images live in `assets/work/`, already optimised and redacted. They are
 committed, so the site builds with no external source and no download step.
 
 `build.js` only renders images that exist on disk, so a missing file never
@@ -84,6 +85,20 @@ they carry "Logoipsum" placeholder logos, "John Doe / Jane Doe" testimonials
 and lorem ipsum body copy, with a "N PAGES" badge in the corner. The gallery
 copy says so plainly and sells the structure rather than claiming client
 deployments. Don't change that line to imply these are live client sites.
+
+### Icons
+
+`src/icons.js` holds a small line-icon set drawn on a 24×24 grid with a 1.5
+stroke in `currentColor`, so icons inherit the accent and match the weight of
+the card hairlines. They sit in a bordered tile (`.ico-tile`) that reuses the
+card's own border and radius, which is what keeps them from reading as stickers
+dropped on top of the design.
+
+Each icon is assigned in `content.js` as an `icon:` key and chosen to encode
+what the card is about — a stopwatch for speed-to-lead, a shield for
+authentication. Adding one means adding a path to `icons.js` and naming it on
+the content item. Don't use emoji, and don't add an icon to a card that does
+not need one; the restraint is the point.
 
 ### Field notes vs case studies
 
