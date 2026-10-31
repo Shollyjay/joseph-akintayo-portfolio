@@ -408,6 +408,7 @@ ${gallerySection}
         <p class="muted" style="font-size:var(--t-sm)">${contact.form.note}</p>
         <form id="contactForm" class="form" novalidate
               data-endpoint="${contact.formEndpoint}"
+              data-key="${contact.formAccessKey || ""}"
               data-to="${site.email}"
               data-ok="${contact.form.ok}"
               data-failed="${contact.form.failed}"

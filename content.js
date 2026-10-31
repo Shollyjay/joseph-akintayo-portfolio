@@ -226,8 +226,12 @@ const contact = {
   bookingLabel: "Book a consultation",
   bookingNote: "30 min · via Upwork",
 
-  // Paste a Formspree or Web3Forms endpoint here and the form POSTs for real.
-  // Left empty, the form opens a pre-filled email instead — see src/site.js.
+  // EASIEST: get a free key from web3forms.com (just your email, no account)
+  // and paste it here. Nothing else to change.
+  formAccessKey: "",
+
+  // Only needed for a different service (Formspree etc). Must be a full URL.
+  // Leave both empty and the form opens a pre-filled email instead.
   formEndpoint: "",
 
   resume: "assets/files/joseph-akintayo-resume.pdf",

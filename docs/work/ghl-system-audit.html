@@ -1276,7 +1276,6 @@ a.card:hover .ico-tile {
 
   var status = form.querySelector(".form-status");
   var button = form.querySelector('button[type="submit"]');
-  var endpoint = (form.getAttribute("data-endpoint") || "").trim();
   var to = form.getAttribute("data-to") || "";
 
   function setError(field, message) {
@@ -1331,31 +1330,82 @@ a.card:hover .ico-tile {
     say("Your email app should be opening. If it does not, copy the address above and paste this message in — nothing here is lost.", "warn");
   }
 
+  /* Web3Forms wants its key in the body and always posts to one fixed URL.
+     Everything else (Formspree and friends) takes a plain JSON POST to the
+     URL you were given. A value that is not a URL is treated as a Web3Forms
+     access key, because pasting the bare key into the endpoint is the easy
+     mistake — and `fetch("somekey")` resolves against the site, which hands
+     back the 404 page and a confusing "Unexpected token '<'" JSON error. */
+  var W3_URL = "https://api.web3forms.com/submit";
+
+  function config() {
+    var endpoint = (form.getAttribute("data-endpoint") || "").trim();
+    var isUrl = /^https?:\/\//i.test(endpoint);
+    var key = (form.getAttribute("data-key") || "").trim() || (isUrl ? "" : endpoint);
+    return { key: key, url: key ? W3_URL : (isUrl ? endpoint : "") };
+  }
+
+  /* Read the response without assuming it is JSON. A misconfigured endpoint
+     usually answers with an HTML error page, and calling .json() on that
+     throws a parser error that tells the visitor nothing. */
+  function readReply(r) {
+    return r.text().then(function (body) {
+      var data = null;
+      try { data = JSON.parse(body); } catch (err) {}
+      if (data === null) {
+        throw new Error(
+          r.ok
+            ? "The form service replied with a page instead of a result. Check the endpoint or access key."
+            : "The form service returned an error (" + r.status + ")."
+        );
+      }
+      if (!r.ok || data.success === false) {
+        throw new Error(data.message || "The form service rejected the message.");
+      }
+      return data;
+    });
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (!validate()) return;
     var v = values();
 
-    if (!endpoint) { mailFallback(v); return; }
+    var cfg = config();
+    if (!cfg.url) { mailFallback(v); return; }
+
+    var payload = {
+      name: v.name,
+      email: v.email,
+      links: v.links || "",
+      message: v.message
+    };
+    if (cfg.key) {
+      payload.access_key = cfg.key;
+      payload.subject = "Portfolio enquiry from " + (v.name || "someone");
+      payload.from_name = v.name || "Portfolio site";
+      payload.replyto = v.email || "";
+    }
 
     var original = button.innerHTML;
     button.disabled = true;
     button.textContent = form.getAttribute("data-sending") || "Sending…";
-    say("", "");
     if (status) status.hidden = true;
 
-    fetch(endpoint, {
+    fetch(cfg.url, {
       method: "POST",
       headers: { "Accept": "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify(v)
+      body: JSON.stringify(payload)
     })
-      .then(function (r) {
-        if (!r.ok) throw new Error("bad status " + r.status);
+      .then(readReply)
+      .then(function () {
         form.reset();
         say(form.getAttribute("data-ok") || "Sent.", "ok");
       })
-      .catch(function () {
-        say(form.getAttribute("data-failed") || "That did not send.", "bad");
+      .catch(function (err) {
+        var base = form.getAttribute("data-failed") || "That did not send.";
+        var detail = err && err.message ? " " + err.message : "";
+        say(base + detail, "bad");
       })
       .then(function () {
         button.disabled = false;
