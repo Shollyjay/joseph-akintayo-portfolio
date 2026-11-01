@@ -219,12 +219,11 @@ const about = {
    working fallback so the page is never dead while they are empty. */
 
 const contact = {
-  // Swap for a GoHighLevel calendar or Calendly link when you have one.
-  // Joseph's Upwork profile offers a paid 30-min consultation. Replace with a
-  // GoHighLevel calendar or Calendly link to take bookings direct.
-  bookingUrl: site.upwork,
+  // Direct booking, so nobody has to go through a marketplace page to get a
+  // call. Swap for a GoHighLevel calendar if you move scheduling in-house.
+  bookingUrl: "https://calendly.com/jmarketinx/30min",
   bookingLabel: "Book a consultation",
-  bookingNote: "30 min · via Upwork",
+  bookingNote: "30 min · pick a time",
 
   // Web3Forms access key. Free, no account — web3forms.com issues one per
   // verified email address and will only deliver to that address, which is

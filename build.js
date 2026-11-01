@@ -489,13 +489,13 @@ function buildCase(w, next) {
     : "";
 
   const body = `<a class="skip" href="#main">Skip to content</a>
-${nav("index.html")}
+${nav("../index.html")}
 
 <main id="main">
   <section class="sect" id="top">
     <div class="wrap row">
       <div class="card cs-hero" style="grid-column:span 8">
-        <a class="back" href="index.html#work">${BACKARR} All work</a>
+        <a class="back" href="../index.html#work">${BACKARR} All work</a>
         <div class="eye">${w.index} · ${w.client} · ${w.industry}</div>
         <h1>${w.title}</h1>
         <p class="lede">${w.summary}</p>
@@ -535,7 +535,7 @@ ${shots}
   </section>
 </main>
 
-${footer("index.html")}`;
+${footer("../index.html")}`;
 
   return `<!doctype html>
 <html lang="en">
