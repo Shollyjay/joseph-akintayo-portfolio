@@ -197,7 +197,7 @@ const certs = [
 const about = {
   title: "One person builds the automation, the page and the creative",
   paras: [
-    "I am Joseph Akintayo, a GoHighLevel and marketing automation specialist working out of Lagos. Forty-plus GHL systems delivered across fifty-seven Upwork contracts, every one custom — I don’t resell a recycled snapshot.",
+    "I am Joseph Akintayo, a GoHighLevel and marketing automation specialist working out of Lagos. Forty-plus GHL systems delivered across fifty-plus Upwork contracts, every one custom — I don’t resell a recycled snapshot.",
     "Most of my work sits in the unglamorous middle of a funnel: the workflow that fires at 2am, the dedupe rule that stops one customer becoming three contacts, the DMARC record that decides whether a campaign lands in an inbox or a spam folder. It is the part clients rarely see and always feel.",
     "I work with coaches and consultants, agencies, real estate teams, clinics and med spas, insurance, home services, e-commerce brands and education businesses — anyone running paid traffic into a lead-to-close pipeline.",
   ],
