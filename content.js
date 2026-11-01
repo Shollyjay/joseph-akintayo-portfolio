@@ -226,9 +226,10 @@ const contact = {
   bookingLabel: "Book a consultation",
   bookingNote: "30 min · via Upwork",
 
-  // EASIEST: get a free key from web3forms.com (just your email, no account)
-  // and paste it here. Nothing else to change.
-  formAccessKey: "",
+  // Web3Forms access key. Free, no account — web3forms.com issues one per
+  // verified email address and will only deliver to that address, which is
+  // why it is safe to have sitting in public page source.
+  formAccessKey: "69ee4a16-da2b-411e-adbf-c397a0ed5638",
 
   // Only needed for a different service (Formspree etc). Must be a full URL.
   // Leave both empty and the form opens a pre-filled email instead.

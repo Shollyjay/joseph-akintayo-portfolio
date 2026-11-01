@@ -90,12 +90,22 @@ deployments. Don't change that line to imply these are live client sites.
 
 All three are configured in one `contact` object in `content.js`.
 
-**The form posts nowhere until you give it somewhere to post.** `formEndpoint`
-is empty by default, and the form is still useful in that state: it validates,
-then opens a pre-filled email to you and leaves the typed text on screen so
-nothing is lost if the mail client does not open. Paste a Formspree or
-Web3Forms endpoint into `formEndpoint` and the same form POSTs for real, with
-no page reload and a success message in place of the button.
+**The form posts through Web3Forms.** `formAccessKey` holds the key, which
+web3forms.com issues per verified email address — mail only ever goes to that
+address, which is why the key is safe in public page source. Web3Forms wants
+its key *in the request body*, posted to the one fixed URL
+`https://api.web3forms.com/submit`; a key put in `formEndpoint` instead gets
+used as a URL, resolves against your own site and comes back as the host's 404
+HTML (`Unexpected token '<'`). The handler now detects a bare key in either
+field, so that mistake is survivable, but `formAccessKey` is the right home.
+
+`formEndpoint` is for a different service entirely (Formspree and the like)
+and must be a full URL. Empty both and the form still works: it validates,
+opens a pre-filled email to you, and leaves the typed text on screen so
+nothing is lost if the mail client does not open.
+
+A reply the service sends that is not JSON is reported with its own reason
+rather than a parser error, so a dead key or a changed endpoint says so.
 
 Validation is client-side and deliberately plain — required fields and a
 sanity check on the email format. There is also an off-screen honeypot-style
